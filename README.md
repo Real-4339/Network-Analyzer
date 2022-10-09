@@ -41,10 +41,12 @@ python3 validator.py -s ~/fiit/pks/schemas/schema.yaml
 
 You can specify the yaml output using the command -d/--data.
 ```
-python3 validator.py -s ~/fiit/pks/data/pks-task1.yaml
+python3 validator.py -s ~/fiit/pks/data/pks-task1.yaml -d PKS_.yaml
 ```
 
 ## Authors
+[Vadym Tilihuzov], STU FIIT
+
 [Lukas Mastilak](https://gitlab.com/luka73), STU FIIT
 
 ## Acknowledgment
