@@ -50,8 +50,6 @@ python3 validator.py -s ~/fiit/pks/data/pks-task1.yaml -d PKS_.yaml
 ## Authors
 Vadym Tilihuzov, STU FIIT
 
-[Lukas Mastilak](https://gitlab.com/luka73), STU FIIT
-
 ## Acknowledgment
 [Kristian Kostal](https://scholar.google.sk/citations?user=6b4HfA4AAAAJ&hl=sk), STU FIIT
 
