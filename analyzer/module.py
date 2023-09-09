@@ -28,14 +28,13 @@ ListOfTCP: dict[str, str] = {}
 ListOfICMP: dict[str, str] = {}
 
 # FUNCTIONS
-
 def ParseFile():
   Names = ['ListOfEthernetII', 'ListOfPIDs',
            'ListOfSaps', 'ListOfIPv4', 'ListOfUDP',
            'ListOfTCP', 'ListOfICMP'] # HACK: hardcode
   key = ''
   value = ''
-  shift = -1
+  shift = -1 # XXX
 
   pwd = os.path.dirname(os.path.abspath(__file__))
   file_path = os.path.join(pwd, 'protocols' , 'set.txt')
@@ -45,11 +44,11 @@ def ParseFile():
   except FileNotFoundError:
     print("File not found")
     exit(1)
-  lines = file.readlines() # list
+  lines: list[str] = file.readlines()
 
   for line in lines:
     if line[0] == "#":
-      shift += 1
+      shift += 1 # XXX
       continue
 
     index = line.find(' ')
