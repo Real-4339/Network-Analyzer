@@ -6,6 +6,7 @@ from typing import TypeVar
 from pprint import pprint
 from enum import Enum
 
+
 # GLOBALS
 StatisticsT = TypeVar("StatisticsT", bound="Statistics")
 stat: StatisticsT
