@@ -1,5 +1,3 @@
-# Vadym Tilihuzov
-
 from __future__ import annotations
 
 import os.path
@@ -33,7 +31,7 @@ ListOfICMP: dict[str, str] = {}
 def ParseFile():
   Names = ['ListOfEthernetII', 'ListOfPIDs',
            'ListOfSaps', 'ListOfIPv4', 'ListOfUDP',
-           'ListOfTCP', 'ListOfICMP']
+           'ListOfTCP', 'ListOfICMP'] # HACK: hardcode
   key = ''
   value = ''
   shift = -1

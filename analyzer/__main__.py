@@ -1,5 +1,3 @@
-# Vadym Tilihuzov
-
 from ruamel.yaml import YAML
 from scapy.all import rdpcap
 from module import *
