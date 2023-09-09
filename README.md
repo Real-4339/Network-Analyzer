@@ -1,7 +1,5 @@
 # The validator for PKS network analyzer
 
-
-
 ## Getting started
 
 Simple tool for validation of the correct YAML syntax output from the network analyzer.

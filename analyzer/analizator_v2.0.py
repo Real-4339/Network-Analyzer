@@ -4,7 +4,7 @@ from ruamel.yaml import YAML, scalarstring
 from scapy.all import rdpcap
 from argparse import ArgumentParser
 from pprint import pprint
-from module import *
+from analyzer.module import *
 
 import os
 

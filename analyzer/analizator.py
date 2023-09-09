@@ -180,10 +180,7 @@ def start():
     for index, a in enumerate(packets):
         main(a, index)
 
-if __name__ == '__main__':
-
-
-
+# if __name__ == '__main__':
     # start()
     # dictoinary['pcap_name'] = "trace-27.pcap"
 
