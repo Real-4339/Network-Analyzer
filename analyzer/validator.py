@@ -1,14 +1,15 @@
 #!/usr/bin/python3
 
 # Import Yamale and make a schema object:
-import argparse
-import os.path
 import re
 import sys
 import yamale
+import os.path
+import argparse
 
-from yamale.validators import DefaultValidators, Validator
 from yamale.yamale_error import YamaleError
+from yamale.validators import DefaultValidators, Validator
+
 
 class Hexdump(Validator):
     """ Custom Date validator """
