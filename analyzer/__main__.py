@@ -2,7 +2,7 @@
 
 from ruamel.yaml import YAML
 from scapy.all import rdpcap
-from analyzer.module import *
+from module import *
 from argparse import ArgumentParser
 
 
