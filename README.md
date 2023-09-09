@@ -54,3 +54,5 @@ Vadym Tilihuzov, STU FIIT
 
 ## License
 Distributed under the Apache License 2.0. See `LICENSE` for more information.
+
+![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
