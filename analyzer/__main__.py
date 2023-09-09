@@ -1,24 +1,22 @@
 # Vadym Tilihuzov
 
-from ruamel.yaml import YAML, scalarstring
+from ruamel.yaml import YAML
 from scapy.all import rdpcap
-from argparse import ArgumentParser
-from pprint import pprint
 from analyzer.module import *
+from argparse import ArgumentParser
 
-import os
 
-packets = rdpcap("vzory/trace-15.pcap")
+packets = rdpcap("vzory/trace-15.pcap") # HACK: global variable
 
 def main():
-    pcap_filename = 'vzory/trace-7.pcap'
+    pcap_filename = 'vzory/trace-7.pcap'  # HACK: global variable
 
     # dictoinary['pcap_name'] = "trace-27.pcap"
 
     yaml = YAML()
     file = open("PKS.yaml", "w")
     yaml.default_flow_style = False
-    outputs = yaml.dump(dictoinary, file)
+    outputs = yaml.dump(dictoinary, file) # TF
     file.close()
 
 def prepinac(protocol):
