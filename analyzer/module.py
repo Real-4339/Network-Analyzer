@@ -1,6 +1,9 @@
 # Vadym Tilihuzov
 
-from ruamel.yaml import YAML, scalarstring
+from __future__ import annotations
+
+import os.path
+
 from typing import TypeVar
 from pprint import pprint
 from enum import Enum
@@ -35,7 +38,14 @@ def ParseFile():
   value = ''
   shift = -1
 
-  file = open('set.txt', mode='r')
+  pwd = os.path.dirname(os.path.abspath(__file__))
+  file_path = os.path.join(pwd, 'protocols' , 'set.txt')
+
+  try:
+    file = open(file_path, 'r')
+  except FileNotFoundError:
+    print("File not found")
+    exit(1)
   lines = file.readlines() # list
 
   for line in lines:

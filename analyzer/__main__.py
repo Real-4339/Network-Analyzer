@@ -6,18 +6,19 @@ from module import *
 from argparse import ArgumentParser
 
 
-packets = rdpcap("vzory/trace-15.pcap") # HACK: global variable
+samples_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'samples'))
 
-def main():
-    pcap_filename = 'vzory/trace-7.pcap'  # HACK: global variable
+packets = rdpcap(samples_path + '/trace-15.pcap')
 
+# def main(): # TF
+    # pcap_filename = 'vzory/trace-7.pcap'
     # dictoinary['pcap_name'] = "trace-27.pcap"
 
-    yaml = YAML()
-    file = open("PKS.yaml", "w")
-    yaml.default_flow_style = False
-    outputs = yaml.dump(dictoinary, file) # TF
-    file.close()
+    # yaml = YAML()
+    # file = open("PKS.yaml", "w")
+    # yaml.default_flow_style = False
+    # outputs = yaml.dump(dictoinary, file) 
+    # file.close()
 
 def prepinac(protocol):
     if protocol == 'TFTP':
@@ -47,9 +48,13 @@ def statistics():
     stat.printStatisctics()
 
 if __name__ == '__main__':
+
+    print("Welcome to the PKS analyzer!")
+
     names = ['HTTP', 'HTTPS', 'TELNET', 'SSH', 'FTP-CONTROL', 'FTP-DATA', 'TFTP', 'ARP']
     parser = ArgumentParser(description='Input HTTP, HTTPS, TELNET, SSH, FTP, TFTP, ARP: ')
-    parser.add_argument('-p', '--protocol', metavar='protocol', required=False)
+
+    parser.add_argument('-p', '--protocol', metavar='', help='Analyze only chosen protocol', required=False)
     args = parser.parse_args()
 
     if args.protocol:
