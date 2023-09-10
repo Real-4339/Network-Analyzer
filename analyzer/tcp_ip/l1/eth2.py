@@ -1,6 +1,7 @@
 import logging
 
-from type import L1, ListOfEthernetII
+from type import L1
+from lib import ListOfEthernetII
 
 
 ''' Global variables '''
