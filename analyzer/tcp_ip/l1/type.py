@@ -17,3 +17,6 @@ class L1:
     
     def print_all(self) -> None:
         ...
+
+    def resolve_type(self, hex) -> str | None:
+        ...
