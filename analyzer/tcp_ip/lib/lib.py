@@ -49,4 +49,5 @@ def parse_file(project_root: str) -> None:
     except Exception as e:
         LOGGER.error(f'Error: {e}')
         return
-    
+    finally:
+        file.close()
