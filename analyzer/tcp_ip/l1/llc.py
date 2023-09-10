@@ -1,6 +1,7 @@
 import logging
 
-from type import L1, ListOfSAPs
+from type import L1
+from lib import ListOfSAPs
 
 
 ''' Global variables '''
