@@ -3,7 +3,7 @@ import os.path
 
 
 ''' Global variables '''
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger('Library')
 
 ''' Ethernet II '''
 ListOfEthernetII: dict[str, str] = {}
