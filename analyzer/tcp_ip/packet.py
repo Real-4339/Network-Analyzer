@@ -1,3 +1,10 @@
+import logging
+
+
+''' Global variables '''
+LOGGER = logging.getLogger('Packet')
+
+
 class Packet:
     def __init__(self, packet, frame_num: int) -> None:
         self.__hex = self.get_hex(packet)
