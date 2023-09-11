@@ -1,6 +1,5 @@
 import logging
 
-
 from type import L2
 from enum import Enum
 from lib import ListOfIPv4

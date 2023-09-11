@@ -1,6 +1,5 @@
 import logging
 
-
 from type import L2
 
 
