@@ -13,8 +13,8 @@ class L1:
     def __init__(self, name, hex) -> None:
         self.__name = name
 
-        self.__dst_mac = self.list_to_str(hex[0:6]).replace(" ", ":")
-        self.__src_mac = self.list_to_str(hex[6:12]).replace(" ", ":")
+        self.__dst_mac = self.list_to_str(hex[0:6])
+        self.__src_mac = self.list_to_str(hex[6:12])
 
     @property
     def name(self) -> str:
