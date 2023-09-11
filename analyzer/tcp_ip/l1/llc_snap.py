@@ -14,7 +14,7 @@ class LLC_SNAP(L1):
     def __init__(self, hex) -> None:
         super().__init__(self.name, hex)
 
-        self.__length = self.list_to_str(hex[12:14]).replace(" ", "")
+        self.__length = self.list_to_str(hex[12:14])
         self.__type = self.resolve_type(hex[20:22])
 
     @property
@@ -31,5 +31,5 @@ class LLC_SNAP(L1):
         LOGGER.info(f"Type: {self.type}")
 
     def resolve_type(self, pids: list[str]) -> str | None:
-        pid = self.list_to_str(pids).replace(" ", "")
+        pid = self.list_to_str(pids)
         return ListOfPIDs.get(pid)
