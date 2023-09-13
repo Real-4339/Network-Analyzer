@@ -65,7 +65,7 @@ class Packet:
         else:
             return EthernetII(hex)
 
-    def _l2_type(self, l1: L1, hex: list[str]) -> L2 | None:
+    def _l2_type(self, l1: L1, hex: list[str]) -> L2 or None:
         if (
             type(l1) == LLC_SNAP or 
             type(l1) == LLC or
@@ -84,7 +84,7 @@ class Packet:
         else:
             return None
 
-    def _l3_type(self, l2: L2, hex: list[str]) -> L3 | None:
+    def _l3_type(self, l2: L2, hex: list[str]) -> L3 or None:
         if (
             type(l2) == LLDP or
             type(l2) == ECTP or
@@ -107,7 +107,7 @@ class Packet:
         else:
             return None
 
-    def _l4_type(self, l3: L3, hex: list[str]) -> L4 | None:
+    def _l4_type(self, l3: L3, hex: list[str]) -> L4 or None:
         if (
             type(l3) == ICMP or
             type(l3) == IGMP or
