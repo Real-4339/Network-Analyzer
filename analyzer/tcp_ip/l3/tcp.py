@@ -1,8 +1,8 @@
 import logging
 
-from type import L3
+from .type import L3
 from enum import Enum
-from lib.lib import ListOfTCP
+from tcp_ip.lib import ListOfTCP
 
 
 ''' Global variables '''

@@ -1,7 +1,7 @@
 import logging
 
-from type import L1
-from lib.lib import ListOfSAPs
+from .type import L1
+from tcp_ip.lib import ListOfSaps
 
 
 ''' Global variables '''
@@ -31,4 +31,4 @@ class LLC(L1):
         LOGGER.info(f"Type: {self.type}")
 
     def resolve_type(self, sap: str) -> str | None:
-        return ListOfSAPs.get(sap)
+        return ListOfSaps.get(sap)

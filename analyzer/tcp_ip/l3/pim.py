@@ -1,6 +1,6 @@
 import logging
 
-from type import L3
+from .type import L3
 
 
 ''' Global variables '''

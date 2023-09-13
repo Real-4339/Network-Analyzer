@@ -1,8 +1,4 @@
-from __future__ import annotations
-
 import logging
-
-from tcp_ip.lib import lib
 
 
 ''' Global variables '''

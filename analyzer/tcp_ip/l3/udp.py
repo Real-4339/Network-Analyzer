@@ -1,7 +1,7 @@
 import logging
 
-from type import L3
-from lib.lib import ListOfUDP
+from .type import L3
+from tcp_ip.lib import ListOfUDP
 
 
 ''' Global variables '''
