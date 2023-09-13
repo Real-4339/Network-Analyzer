@@ -1,7 +1,7 @@
 import logging
 
 from type import L3
-from lib import ListOfICMP
+from lib.lib import ListOfICMP
 
 
 ''' Global variables '''

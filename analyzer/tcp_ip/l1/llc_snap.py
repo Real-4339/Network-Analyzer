@@ -1,7 +1,7 @@
 import logging
 
 from type import L1
-from lib import ListOfPIDs
+from lib.lib import ListOfPIDs
 
 
 ''' Global variables '''
