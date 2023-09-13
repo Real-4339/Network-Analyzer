@@ -32,8 +32,8 @@ class Statistics:
 
         return ipv4_senders
 
-    def get_max_send_packets_by(self) -> dict[str, str]:
-        max_send_packets_by = {}
+    def get_max_send_packets_by(self) -> list[str]:
+        max_send_packets_by = []
         
         if self.__ip_sources == {}:
             return max_send_packets_by 
@@ -42,6 +42,6 @@ class Statistics:
         rad = [[k, v] for k, v in self.__ip_sources.items() if v == mval]
 
         for i in rad:
-            max_send_packets_by['max_send_packets_by'] = i[0]
+            max_send_packets_by.append(i[0])
 
         return max_send_packets_by
