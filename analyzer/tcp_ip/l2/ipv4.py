@@ -34,11 +34,11 @@ class IPv4(L2):
         
         self.__ttl = int(self.hex[8], 16)
         self.__protocol = self.resolve_protocol(self.hex[9])
-        self.__header_checksum = int(self.list_to_str(self.hex[10:12]).replace(' ', ''), 16)
+        self.__header_checksum = self.list_to_str(self.hex[10:12]).replace(' ', '')
 
         self.__source_ip = self.get_ip(self.list_to_str(self.hex[12:16]))
         self.__destination_ip = self.get_ip(self.list_to_str(self.hex[16:20]))
-        self.__options = int(self.list_to_str(self.hex[20:self.header_length]).replace(' ', ''), 16)
+        self.__options = int(self.list_to_str(self.hex[20:24]).replace(' ', ''), 16)
 
         ''' Statistics '''
         self.__ip_sources = {}

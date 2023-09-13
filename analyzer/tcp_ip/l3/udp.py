@@ -20,7 +20,7 @@ class UDP(L3):
         self.__protocol = self.resolve_protocol()
 
         self.__length = int(hex[8:12], 16)
-        self.__checksum = int(hex[12:16], 16)
+        self.__checksum = hex[12:16]
 
     @property
     def source_port(self) -> int:

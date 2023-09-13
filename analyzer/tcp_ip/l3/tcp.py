@@ -30,7 +30,7 @@ class TCP(L3):
 
         self.__flags = TCPFlags(int(hex[12:14], 16))
         self.__window_size = int(hex[14:16], 16)
-        self.__checksum = int(hex[16:20], 16)
+        self.__checksum = hex[16:20]
         self.__urgent_pointer = int(hex[20:24], 16)
 
         self.__protocol = self.resolve_protocol()
