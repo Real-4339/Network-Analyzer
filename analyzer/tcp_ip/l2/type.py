@@ -23,7 +23,7 @@ class L2:
         return self.__hex
 
     def list_to_str(self, data: list[str]) -> str:
-        return ''.join(data)
+        return ' '.join(data)
     
     def print_all(self) -> None:
         LOGGER.info(f"Layer 2: {self.name}")

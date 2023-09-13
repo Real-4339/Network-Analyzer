@@ -26,18 +26,19 @@ class IPv4(L2):
         self.__header_length = (int(self.hex[0], 16) & 0x0F) * 4
         self.__dscp = int(self.hex[1], 16) >> 2
         self.__ecn = int(self.hex[1], 16) & 0x03
-        self.__total_length = int(self.list_to_str(self.hex[2:4]), 16)
-        self.__identification = int(self.list_to_str(self.hex[4:6]), 16)
+        self.__total_length = int(self.list_to_str(self.hex[2:4]).replace(' ', ''), 16)
+        self.__identification = int(self.list_to_str(self.hex[4:6]).replace(' ', ''), 16)
 
         self.__flags = IPv4Flags(int(self.hex[6], 16) >> 5).name
-        self.__fragment_offset = int(self.list_to_str(self.hex[6:8]), 16) & 0x1FFF
+        self.__fragment_offset = int(self.list_to_str(self.hex[6:8]).replace(' ', ''), 16) & 0x1FFF
         
         self.__ttl = int(self.hex[8], 16)
         self.__protocol = self.resolve_protocol(self.hex[9])
-        self.__header_checksum = self.list_to_str(self.hex[10:12])
+        self.__header_checksum = int(self.list_to_str(self.hex[10:12]).replace(' ', ''), 16)
+
         self.__source_ip = self.get_ip(self.list_to_str(self.hex[12:16]))
         self.__destination_ip = self.get_ip(self.list_to_str(self.hex[16:20]))
-        self.__options = self.list_to_str(self.hex[20:self.header_length])
+        self.__options = int(self.list_to_str(self.hex[20:self.header_length]).replace(' ', ''), 16)
 
     @property
     def version(self) -> int:
