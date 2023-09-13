@@ -12,11 +12,11 @@ LOGGER = logging.getLogger('Packet')
 
 
 class Packet:
-    def __init__(self, packet, frame_num: int) -> None:
+    def __init__(self, packet, frame_num: int, stat: Statistics) -> None:
         self.__hex = self.get_hex(packet)
         self.__frame_num = frame_num
         self._create_additional_info()
-        self._statistics = Statistics()
+        self._statistics = stat
 
     def get_hex(self, packet) -> list[str]:
         data = bytes(packet).hex().upper()
@@ -146,6 +146,3 @@ class Packet:
         for i in range(0, len(hex_str), 32):
             LOGGER.info(f"{hex_str[i:i+32]}")
         LOGGER.info("----------------------------------------")
-
-    def print_statistics(self) -> None:
-        self._statistics.print_statistics()
