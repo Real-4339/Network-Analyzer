@@ -38,8 +38,8 @@ class IPv4(L2):
         self.__protocol = self.resolve_protocol(self.hex[9])
         self.__header_checksum = self.list_to_str(self.hex[10:12]).replace(' ', '')
 
-        self.__source_ip = self.get_ip(self.list_to_str(self.hex[12:16]))
-        self.__destination_ip = self.get_ip(self.list_to_str(self.hex[16:20]))
+        self.__src_ip = self.get_ip(self.list_to_str(self.hex[12:16]))
+        self.__dst_ip = self.get_ip(self.list_to_str(self.hex[16:20]))
 
         self._statistics = stat
 
@@ -90,12 +90,12 @@ class IPv4(L2):
         return self.__header_checksum
     
     @property
-    def source_ip(self) -> str:
-        return self.__source_ip
+    def src_ip(self) -> str:
+        return self.__src_ip
     
     @property
-    def destination_ip(self) -> str:
-        return self.__destination_ip
+    def dst_ip(self) -> str:
+        return self.__dst_ip
     
     @property
     def statistics(self) -> dict[str, int]:
@@ -115,8 +115,8 @@ class IPv4(L2):
         LOGGER.info(f"TTL: {self.ttl}")
         LOGGER.info(f"Protocol: {self.protocol}")
         LOGGER.info(f"Header checksum: {self.header_checksum}")
-        LOGGER.info(f"Source IP address: {self.source_ip}")
-        LOGGER.info(f"Destination IP address: {self.destination_ip}")
+        LOGGER.info(f"Source IP address: {self.src_ip}")
+        LOGGER.info(f"Destination IP address: {self.dst_ip}")
 
     def resolve_protocol(self, hex: str) -> str | None:
         return ListOfIPv4.get(hex)
@@ -124,14 +124,14 @@ class IPv4(L2):
     def get_packet(self, data: dict) -> dict:
         data = super().get_packet(data)
 
-        data['src_ip'] = self.source_ip
-        data['dst_ip'] = self.destination_ip
+        data['src_ip'] = self.src_ip
+        data['dst_ip'] = self.dst_ip
         
         return data
     
     def _count_statistics(self) -> None:
         ''' Count statistics '''
-        if self.source_ip in self.statistics:
-            self.statistics[self.source_ip] += 1
+        if self.src_ip in self.statistics:
+            self.statistics[self.src_ip] += 1
         else:
-            self.statistics[self.source_ip] = 1
+            self.statistics[self.src_ip] = 1

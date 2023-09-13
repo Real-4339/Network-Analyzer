@@ -9,6 +9,8 @@ class L2:
     def __init__(self, name, hex) -> None:
         self.__name = name
         self.__hex = hex
+        self.__src_ip = None
+        self.__dst_ip = None
 
     @property
     def name(self) -> str:
@@ -17,6 +19,14 @@ class L2:
     @property
     def hex(self) -> list[str]:
         return self.__hex
+    
+    @property
+    def src_ip(self) -> str:
+        return self.__src_ip
+    
+    @property
+    def dst_ip(self) -> str:
+        return self.__dst_ip
 
     def list_to_str(self, data: list[str]) -> str:
         return ' '.join(data)
