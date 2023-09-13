@@ -38,7 +38,6 @@ class IPv4(L2):
 
         self.__source_ip = self.get_ip(self.list_to_str(self.hex[12:16]))
         self.__destination_ip = self.get_ip(self.list_to_str(self.hex[16:20]))
-        self.__options = int(self.list_to_str(self.hex[20:24]).replace(' ', ''), 16)
 
         ''' Statistics '''
         self.__ip_sources = {}
