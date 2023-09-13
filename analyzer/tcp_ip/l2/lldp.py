@@ -8,7 +8,7 @@ LOGGER = logging.getLogger('LLDP')
 
 
 class LLDP(L2):
-    name = "Link Layer Discovery Protocol"
+    name = "LLDP"
 
     def __init__(self, hex) -> None:
         super().__init__(self.name, hex)

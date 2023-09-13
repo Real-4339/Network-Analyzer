@@ -8,7 +8,7 @@ LOGGER = logging.getLogger('IPv6')
 
 
 class IPv6(L2):
-    name = "Internet Protocol version 6"
+    name = "IPv6"
 
     def __init__(self, hex) -> None:
         super().__init__(self.name, hex)

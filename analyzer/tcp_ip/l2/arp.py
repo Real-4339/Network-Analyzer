@@ -8,7 +8,7 @@ LOGGER = logging.getLogger('ARP')
 
 
 class ARP(L2):
-    name = "Address Resolution Protocol"
+    name = "ARP"
 
     def __init__(self, hex) -> None:
         super().__init__(self.name, hex)

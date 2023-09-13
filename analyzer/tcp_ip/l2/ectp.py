@@ -8,7 +8,7 @@ LOGGER = logging.getLogger('ECTP')
 
 
 class ECTP(L2):
-    name = "Ethernet Configuration Testing Protocol"
+    name = "ECTP"
 
     def __init__(self, hex) -> None:
         super().__init__(self.name, hex)

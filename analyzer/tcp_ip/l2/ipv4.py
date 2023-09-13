@@ -19,7 +19,7 @@ class IPv4Flags(Enum):
 
 
 class IPv4(L2):
-    name = "Internet Protocol version 4"
+    name = "IPv4"
 
     def __init__(self, hex, stat: Statistics) -> None:
         super().__init__(self.name, hex)
