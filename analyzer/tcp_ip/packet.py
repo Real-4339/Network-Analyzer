@@ -19,6 +19,22 @@ class Packet:
         self.__statistics = stat
         self._create_additional_info()
 
+    @property
+    def L1(self) -> L1:
+        return self.__l1
+    
+    @property
+    def L2(self) -> L2 | None:
+        return self.__l2
+    
+    @property
+    def L3(self) -> L3 | None:
+        return self.__l3
+    
+    @property
+    def L4(self) -> L4 | None:
+        return self.__l4
+
     def get_hex(self, packet) -> list[str]:
         data = bytes(packet).hex().upper()
         data = [data[i:i+2] for i in range(0, len(data), 2)]
