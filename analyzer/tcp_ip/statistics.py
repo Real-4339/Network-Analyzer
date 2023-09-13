@@ -34,6 +34,10 @@ class Statistics:
 
     def get_max_send_packets_by(self) -> dict[str, str]:
         max_send_packets_by = {}
+        
+        if self.__ip_sources == {}:
+            return max_send_packets_by 
+
         mval = max(self.__ip_sources.values())
         rad = [[k, v] for k, v in self.__ip_sources.items() if v == mval]
 
