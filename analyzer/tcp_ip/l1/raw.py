@@ -13,7 +13,7 @@ class RAW(L1):
     def __init__(self, hex) -> None:
         super().__init__(self.name, hex)
 
-        self.__length = self.list_to_str(hex[12:14])
+        self.__length = self.list_to_str(hex[12:14]).replace(' ', '')
     
     @property
     def length(self) -> str:
