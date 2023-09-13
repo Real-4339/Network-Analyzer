@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 
-from analyzer.tcp_ip.lib import lib
+from tcp_ip.lib import lib
 
 
 ''' Global variables '''
