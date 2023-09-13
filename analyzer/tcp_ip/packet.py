@@ -15,8 +15,8 @@ class Packet:
     def __init__(self, packet, frame_num: int, stat: Statistics) -> None:
         self.__hex = self.get_hex(packet)
         self.__frame_num = frame_num
+        self.__statistics = stat
         self._create_additional_info()
-        self._statistics = stat
 
     def get_hex(self, packet) -> list[str]:
         data = bytes(packet).hex().upper()
@@ -53,7 +53,7 @@ class Packet:
             return None
         
         if l1.type == 'IPv4':
-            return IPv4(hex[14:], self._statistics)
+            return IPv4(hex[14:], self.__statistics)
         elif l1.type == 'IPv6':
             return IPv6(hex[14:])
         elif l1.type == 'ARP':
