@@ -25,7 +25,7 @@ class Basic:
         data['packets'] = []
         
         ''' Packets '''
-        for index, packet in enumerate(self.packets):
+        for packet in self.packets:
             data['packets'].append(packet.get_packet())
 
         ''' Statistics '''
