@@ -9,8 +9,8 @@ class L1:
     def __init__(self, name, hex) -> None:
         self.__name = name
 
-        self.__dst_mac = self.list_to_str(hex[0:6])
-        self.__src_mac = self.list_to_str(hex[6:12])
+        self.__dst_mac = self.list_to_str(hex[0:6]).replace(' ', ':')
+        self.__src_mac = self.list_to_str(hex[6:12]).replace(' ', ':')
 
     @property
     def name(self) -> str:
@@ -25,7 +25,7 @@ class L1:
         return self.__src_mac
 
     def list_to_str(self, data: list[str]) -> str:
-        return ''.join(data)
+        return ' '.join(data)
     
     def print_all(self) -> None:
         LOGGER.info(f"Layer 1: {self.name}")
