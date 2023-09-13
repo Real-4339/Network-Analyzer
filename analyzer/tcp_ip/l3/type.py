@@ -11,6 +11,7 @@ class L3:
         self.__hex = hex
         self.__dst_port = None
         self.__src_port = None
+        self.__protocol = None
 
     @property
     def name(self) -> str:
@@ -27,6 +28,10 @@ class L3:
     @property
     def dst_port(self) -> int:
         return self.__dst_port
+    
+    @property
+    def protocol(self) -> str:
+        return self.__protocol
 
     def list_to_str(self, data: list[str]) -> str:
         return ''.join(data)

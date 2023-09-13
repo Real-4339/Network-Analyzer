@@ -11,6 +11,7 @@ class L2:
         self.__hex = hex
         self.__src_ip = None
         self.__dst_ip = None
+        self.__protocol = None
 
     @property
     def name(self) -> str:
@@ -27,6 +28,10 @@ class L2:
     @property
     def dst_ip(self) -> str:
         return self.__dst_ip
+    
+    @property
+    def protocol(self) -> str:
+        return self.__protocol
 
     def list_to_str(self, data: list[str]) -> str:
         return ' '.join(data)
