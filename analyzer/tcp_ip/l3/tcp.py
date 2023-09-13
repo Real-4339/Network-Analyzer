@@ -14,6 +14,12 @@ class TCPFlags(Enum):
     SYN: int = 0x002
     FIN: int = 0x001
     RST: int = 0x004
+    PSH: int = 0x008
+    URG: int = 0x020
+    ECE: int = 0x040
+    CWR: int = 0x080
+    NS: int = 0x100
+    RES1: int = 0x200
 
 
 class TCP(L3):
@@ -25,13 +31,13 @@ class TCP(L3):
         self.__source_port = int( self.list_to_str( hex[0:2] ), 16 )
         self.__destination_port = int( self.list_to_str( hex[2:4] ), 16 )
 
-        self.__sequence_number = int(hex[4:8], 16)
-        self.__acknowledgment_number = int(hex[8:12], 16)
+        self.__sequence_number = int( self.list_to_str( hex[4:8] ), 16 )
+        self.__acknowledgment_number = int( self.list_to_str( hex[8:12] ), 16 )
 
-        self.__flags = TCPFlags(int(hex[12:14], 16))
-        self.__window_size = int(hex[14:16], 16)
-        self.__checksum = hex[16:20]
-        self.__urgent_pointer = int(hex[20:24], 16)
+        self.__flags = self._get_flags()
+        self.__window_size = int( self.list_to_str( hex[14:16] ), 16 )
+        self.__checksum = self.list_to_str( hex[16:18] )
+        self.__urgent_pointer = int( self.list_to_str( hex[18:20] ), 16 )
 
         self.__protocol = self.resolve_protocol()
 
@@ -89,3 +95,14 @@ class TCP(L3):
             protocol = ListOfTCP.get(str(self.source_port), None)
 
         return protocol
+    
+    def _get_flags(self) -> TCPFlags:
+        flags = []
+        
+        hex_value = int( self.list_to_str( self.hex[13:14] ), 16 )
+
+        for flag in TCPFlags:
+            if hex_value & flag.value == flag.value:
+                flags.append(flag)
+
+        return flags
