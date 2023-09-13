@@ -94,10 +94,6 @@ class IPv4(L2):
     def destination_ip(self) -> str:
         return self.__destination_ip
     
-    @property
-    def options(self) -> str:
-        return self.__options
-    
     def print_all(self) -> None:
         super().print_all()
 
@@ -114,7 +110,6 @@ class IPv4(L2):
         LOGGER.info(f"Header checksum: {self.header_checksum}")
         LOGGER.info(f"Source IP address: {self.source_ip}")
         LOGGER.info(f"Destination IP address: {self.destination_ip}")
-        LOGGER.info(f"Options: {self.options}")
 
         ''' Count statistics '''
         if self.source_ip in self.__ip_sources:
