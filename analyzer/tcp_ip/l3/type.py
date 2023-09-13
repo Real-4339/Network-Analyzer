@@ -9,6 +9,8 @@ class L3:
     def __init__(self, name, hex) -> None:
         self.__name = name
         self.__hex = hex
+        self.__dst_port = None
+        self.__src_port = None
 
     @property
     def name(self) -> str:
@@ -17,6 +19,14 @@ class L3:
     @property
     def hex(self) -> list[str]:
         return self.__hex
+    
+    @property
+    def src_port(self) -> int:
+        return self.__src_port
+    
+    @property
+    def dst_port(self) -> int:
+        return self.__dst_port
 
     def list_to_str(self, data: list[str]) -> str:
         return ''.join(data)

@@ -28,8 +28,8 @@ class TCP(L3):
     def __init__(self, hex: list[str]) -> None:
         super().__init__(self.name, hex)
 
-        self.__source_port = int( self.list_to_str( hex[0:2] ), 16 )
-        self.__destination_port = int( self.list_to_str( hex[2:4] ), 16 )
+        self.__src_port = int( self.list_to_str( hex[0:2] ), 16 )
+        self.__dst_port = int( self.list_to_str( hex[2:4] ), 16 )
 
         self.__sequence_number = int( self.list_to_str( hex[4:8] ), 16 )
         self.__acknowledgment_number = int( self.list_to_str( hex[8:12] ), 16 )
@@ -42,12 +42,12 @@ class TCP(L3):
         self.__protocol = self.resolve_protocol()
 
     @property
-    def source_port(self) -> int:
-        return self.__source_port
+    def src_port(self) -> int:
+        return self.__src_port
     
     @property
-    def destination_port(self) -> int:
-        return self.__destination_port
+    def dst_port(self) -> int:
+        return self.__dst_port
     
     @property
     def sequence_number(self) -> int:
@@ -79,8 +79,8 @@ class TCP(L3):
     
     def print_all(self) -> None:
         super().print_all()
-        LOGGER.info(f"Source port: {self.source_port}")
-        LOGGER.info(f"Destination port: {self.destination_port}")
+        LOGGER.info(f"Source port: {self.src_port}")
+        LOGGER.info(f"Destination port: {self.dst_port}")
         LOGGER.info(f"Sequence number: {self.sequence_number}")
         LOGGER.info(f"Acknowledgment number: {self.acknowledgment_number}")
         LOGGER.info(f"Flags: {self.flags}")
@@ -90,9 +90,9 @@ class TCP(L3):
         LOGGER.info(f"Protocol: {self.protocol}")
 
     def resolve_protocol(self) -> str | None:
-        protocol = ListOfTCP.get(str(self.destination_port), None)
+        protocol = ListOfTCP.get(str(self.dst_port), None)
         if protocol is None:
-            protocol = ListOfTCP.get(str(self.source_port), None)
+            protocol = ListOfTCP.get(str(self.src_port), None)
 
         return protocol
     
@@ -109,8 +109,8 @@ class TCP(L3):
     
     def get_packet(self, data: dict) -> dict:
         data = super().get_packet(data)
-        data['src_port'] = self.source_port
-        data['dst_port'] = self.destination_port
+        data['src_port'] = self.src_port
+        data['dst_port'] = self.dst_port
         data['app_protocol'] = self.protocol
 
         return data
