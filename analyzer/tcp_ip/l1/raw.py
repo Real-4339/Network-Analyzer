@@ -7,7 +7,7 @@ from type import L1
 LOGGER = logging.getLogger('Raw')
 
 
-class Raw(L1):
+class RAW(L1):
     name = "IEEE 802.3 RAW"
 
     def __init__(self, hex) -> None:
