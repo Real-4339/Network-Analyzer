@@ -37,6 +37,10 @@ class UDP(L3):
     @property
     def checksum(self) -> str:
         return self.__checksum
+    
+    @property
+    def protocol(self) -> str | None:
+        return self.__protocol
 
     def print_all(self) -> None:
         super().print_all()
@@ -44,6 +48,7 @@ class UDP(L3):
         LOGGER.info(f"Destination port: {self.destination_port}")
         LOGGER.info(f"Length: {self.length}")
         LOGGER.info(f"Checksum: {self.checksum}")
+        LOGGER.info(f"Protocol: {self.protocol}")
 
     def resolve_protocol(self) -> str | None:
         protocol = ListOfUDP.get(str(self.destination_port), None)
