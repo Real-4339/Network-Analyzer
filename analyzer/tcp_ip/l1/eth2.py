@@ -9,7 +9,7 @@ LOGGER = logging.getLogger('EthernetII')
 
 
 class EthernetII(L1):
-    name = "Ethernet II"
+    name = "ETHERNET II"
 
     def __init__(self, hex) -> None:
         super().__init__(self.name, hex)

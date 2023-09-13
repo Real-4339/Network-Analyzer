@@ -9,7 +9,7 @@ LOGGER = logging.getLogger('LLC_SNAP')
 
 
 class LLC_SNAP(L1):
-    name = "IEEE 802.3 LLC SNAP"
+    name = "IEEE 802.3 LLC & SNAP"
 
     def __init__(self, hex) -> None:
         super().__init__(self.name, hex)
