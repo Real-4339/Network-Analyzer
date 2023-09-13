@@ -43,6 +43,8 @@ class IPv4(L2):
 
         self._statistics = stat
 
+        self._count_statistics()
+
     @property
     def version(self) -> int:
         return self.__version
@@ -116,12 +118,6 @@ class IPv4(L2):
         LOGGER.info(f"Source IP address: {self.source_ip}")
         LOGGER.info(f"Destination IP address: {self.destination_ip}")
 
-        ''' Count statistics '''
-        if self.source_ip in self.statistics:
-            self.statistics[self.source_ip] += 1
-        else:
-            self.statistics[self.source_ip] = 1
-
     def resolve_protocol(self, hex: str) -> str | None:
         return ListOfIPv4.get(hex)
     
@@ -132,3 +128,10 @@ class IPv4(L2):
         data['dst_ip'] = self.destination_ip
         
         return data
+    
+    def _count_statistics(self) -> None:
+        ''' Count statistics '''
+        if self.source_ip in self.statistics:
+            self.statistics[self.source_ip] += 1
+        else:
+            self.statistics[self.source_ip] = 1
