@@ -8,7 +8,8 @@ from tcp_ip.statistics import Statistics
 class Basic:
     def __init__(self, pcap_name: str, root_path: str, arr: list[Packet], stat: Statistics) -> None:
         self.timestamp = time.strftime("%Y%m%d-%H%M%S")
-        self.results_path = root_path + "/results"
+        self.results_path = root_path + "/results/"
+        
         self.root_path = root_path
         self.pcap_name = pcap_name
         self.packets = arr
