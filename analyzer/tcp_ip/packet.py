@@ -5,6 +5,7 @@ from tcp_ip.l2 import *
 from tcp_ip.l3 import *
 from tcp_ip.l4.type import L4
 from .statistics import Statistics
+from ruamel.yaml import scalarstring
 
 
 ''' Global variables '''
@@ -146,3 +147,21 @@ class Packet:
         for i in range(0, len(hex_str), 32):
             LOGGER.info(f"{hex_str[i:i+32]}")
         LOGGER.info("----------------------------------------")
+
+    def get_packet(self) -> dict:
+        data = {}
+        data['frame_num'] = self.__frame_num
+        data['len_frame_pcap'] = self.__len_frame_pcap
+        data['len_frame_medium'] = self.__len_frame_medium
+        self.__l1.get_packet(data)
+        if self.__l2 is not None:
+            self.__l2.get_packet(data)
+        if self.__l3 is not None:
+            self.__l3.get_packet(data)
+        data['hexa_frame'] = self.hex_to_yaml()
+        return data
+    
+    def hex_to_yaml(self) -> scalarstring.LiteralScalarString:
+        result_str = '\n'.join([' '.join(self.__hex[i:i+16]) for i in range(0, len(self.__hex), 16)])
+
+        return scalarstring.LiteralScalarString(result_str)
