@@ -72,6 +72,7 @@ def getHex(packet):
   return data
 
 def getIP(string: str):
+
   string = [str(int(string[i:i+2], 16)) for i in range(0, len(string), 3)]
   string = listToString(string).replace(' ', '.')
   return string
