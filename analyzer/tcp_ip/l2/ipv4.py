@@ -40,6 +40,9 @@ class IPv4(L2):
         self.__destination_ip = self.get_ip(self.list_to_str(self.hex[16:20]))
         self.__options = int(self.list_to_str(self.hex[20:self.header_length]).replace(' ', ''), 16)
 
+        ''' Statistics '''
+        self.__ip_sources = {}
+
     @property
     def version(self) -> int:
         return self.__version
@@ -114,5 +117,22 @@ class IPv4(L2):
         LOGGER.info(f"Destination IP address: {self.destination_ip}")
         LOGGER.info(f"Options: {self.options}")
 
+        ''' Count statistics '''
+        if self.source_ip in self.__ip_sources:
+            self.__ip_sources[self.source_ip] += 1
+        else:
+            self.__ip_sources[self.source_ip] = 1
+
     def resolve_protocol(self, hex: str) -> str | None:
         return ListOfIPv4.get(hex)
+    
+    def print_statistics(self) -> None:
+        mval = max(self.__ip_sources.values())
+        rad = [[k, v] for k, v in self.__ip_sources.items() if v == mval]
+
+        LOGGER.info(f"Source IPv4 addresses: ")
+        for key, value in self.__ip_sources.items():
+            LOGGER.info(f"{key}: {value} packets")
+
+        for i in rad:
+            LOGGER.info(f"Address/es with the largest number of send packets: {i[0]}. Packets amount: ( {i[1]} )")
