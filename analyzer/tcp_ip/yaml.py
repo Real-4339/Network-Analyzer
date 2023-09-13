@@ -21,8 +21,15 @@ class Basic:
         data = {}
         data['name'] = 'PKS2022/23'
         data['pcap_name'] = self.pcap_name
+        
+        ''' Packets '''
         for index, packet in enumerate(self.packets):
             data['packets'].append(packet.get_packet())
+
+        ''' Statistics '''
+        data['ipv4_senders'] = self.stat.get_all_senders()
+        data['max_send_packets_by'] = self.stat.get_max_send_packets_by()
+    
         return data
 
     def create_file(self) -> None:
