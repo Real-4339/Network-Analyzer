@@ -34,3 +34,10 @@ class L1:
 
     def resolve_type(self, hex) -> str | None:
         ...
+
+    def get_packet(self, data: dict) -> dict:
+        data['frame_type'] = self.name
+        data['src_mac'] = self.src_mac
+        data['dst_mac'] = self.dst_mac
+
+        return data
