@@ -4,6 +4,8 @@ from .type import L2
 from enum import Enum
 from tcp_ip.lib import ListOfIPv4
 
+from tcp_ip.statistics import Statistics
+
 
 ''' Global variables '''
 LOGGER = logging.getLogger('IPv4')
@@ -19,7 +21,7 @@ class IPv4Flags(Enum):
 class IPv4(L2):
     name = "Internet Protocol version 4"
 
-    def __init__(self, hex) -> None:
+    def __init__(self, hex, stat: Statistics) -> None:
         super().__init__(self.name, hex)
 
         self.__version = int(self.hex[0], 16) >> 4
@@ -39,8 +41,7 @@ class IPv4(L2):
         self.__source_ip = self.get_ip(self.list_to_str(self.hex[12:16]))
         self.__destination_ip = self.get_ip(self.list_to_str(self.hex[16:20]))
 
-        ''' Statistics '''
-        self.__ip_sources = {}
+        self._statistics = stat
 
     @property
     def version(self) -> int:
@@ -94,6 +95,10 @@ class IPv4(L2):
     def destination_ip(self) -> str:
         return self.__destination_ip
     
+    @property
+    def statistics(self) -> dict[str, int]:
+        return self._statistics.ip_sources
+    
     def print_all(self) -> None:
         super().print_all()
 
@@ -112,21 +117,10 @@ class IPv4(L2):
         LOGGER.info(f"Destination IP address: {self.destination_ip}")
 
         ''' Count statistics '''
-        if self.source_ip in self.__ip_sources:
-            self.__ip_sources[self.source_ip] += 1
+        if self.source_ip in self.statistics:
+            self.statistics[self.source_ip] += 1
         else:
-            self.__ip_sources[self.source_ip] = 1
+            self.statistics[self.source_ip] = 1
 
     def resolve_protocol(self, hex: str) -> str | None:
         return ListOfIPv4.get(hex)
-    
-    def print_statistics(self) -> None:
-        mval = max(self.__ip_sources.values())
-        rad = [[k, v] for k, v in self.__ip_sources.items() if v == mval]
-
-        LOGGER.info(f"Source IPv4 addresses: ")
-        for key, value in self.__ip_sources.items():
-            LOGGER.info(f"{key}: {value} packets")
-
-        for i in rad:
-            LOGGER.info(f"Address/es with the largest number of send packets: {i[0]}. Packets amount: ( {i[1]} )")
