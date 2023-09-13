@@ -31,5 +31,5 @@ class LLC_SNAP(L1):
         LOGGER.info(f"Type: {self.type}")
 
     def resolve_type(self, pids: list[str]) -> str | None:
-        pid = self.list_to_str(pids)
+        pid = self.list_to_str(pids).replace(' ', '')
         return ListOfPIDs.get(pid)

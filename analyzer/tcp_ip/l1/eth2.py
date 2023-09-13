@@ -25,4 +25,4 @@ class EthernetII(L1):
         LOGGER.info(f"Type: {self.type}")
 
     def resolve_type(self, type: list[str]) -> str | None:
-        return ListOfEthernetII.get(self.list_to_str(type))
+        return ListOfEthernetII.get(self.list_to_str(type).replace(' ', ''))
