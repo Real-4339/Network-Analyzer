@@ -21,6 +21,7 @@ class Basic:
         data = {}
         data['name'] = 'PKS2022/23'
         data['pcap_name'] = self.pcap_name
+        data['packets'] = []
         
         ''' Packets '''
         for index, packet in enumerate(self.packets):
