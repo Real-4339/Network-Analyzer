@@ -16,6 +16,9 @@ class UDP(L3):
 
         self.__source_port = int( self.list_to_str( hex[0:2] ), 16 )
         self.__destination_port = int( self.list_to_str( hex[2:4] ), 16 )
+
+        self.__protocol = self.resolve_protocol()
+
         self.__length = int(hex[8:12], 16)
         self.__checksum = int(hex[12:16], 16)
 
@@ -41,3 +44,10 @@ class UDP(L3):
         LOGGER.info(f"Destination port: {self.destination_port}")
         LOGGER.info(f"Length: {self.length}")
         LOGGER.info(f"Checksum: {self.checksum}")
+
+    def resolve_protocol(self) -> str | None:
+        protocol = ListOfUDP.get(str(self.destination_port), None)
+        if protocol is None:
+            protocol = ListOfUDP.get(str(self.source_port), None)
+
+        return protocol
