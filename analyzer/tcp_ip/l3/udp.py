@@ -56,3 +56,11 @@ class UDP(L3):
             protocol = ListOfUDP.get(str(self.source_port), None)
 
         return protocol
+    
+    def get_packet(self, data: dict) -> dict:
+        data = super().get_packet(data)
+        data['src_port'] = self.source_port
+        data['dst_port'] = self.destination_port
+        data['app_protocol'] = self.protocol
+
+        return data

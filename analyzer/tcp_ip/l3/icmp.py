@@ -26,3 +26,9 @@ class ICMP(L3):
 
     def resolve_type(self, hex: str) -> str:
         return ListOfICMP.get(hex, 16)
+    
+    def get_packet(self, data: dict) -> dict:
+        data = super().get_packet(data)
+        data['icmp_type'] = self.type
+
+        return data
