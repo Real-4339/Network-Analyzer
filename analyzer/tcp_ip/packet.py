@@ -123,23 +123,24 @@ class Packet:
         self.print_beautiful_hex()
 
         self.__l1.print_all()
-        LOGGER.info("")
+        LOGGER.info("----------------------------------------")
 
         if self.__l2 is not None:
             self.__l2.print_all()
-            LOGGER.info("")
+            LOGGER.info("----------------------------------------")
         
         if self.__l3 is not None:
             self.__l3.print_all()
-            LOGGER.info("")
+            LOGGER.info("----------------------------------------")
         
         if self.__l4 is not None:
             self.__l4.print_all()
-            LOGGER.info("")
-        
-        LOGGER.info("")
+            LOGGER.info("----------------------------------------")
 
     def print_beautiful_hex(self) -> None:
-        for i in range(0, len(self.__hex), 16):
-            LOGGER.info(f"{self.__hex[i:i+16]}")
-        LOGGER.info("")
+
+        hex_str = self.list_to_str(self.__hex)
+
+        for i in range(0, len(hex_str), 32):
+            LOGGER.info(f"{hex_str[i:i+32]}")
+        LOGGER.info("----------------------------------------")
