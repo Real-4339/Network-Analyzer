@@ -23,7 +23,7 @@ class TCPFlags(Enum):
 
 
 class TCP(L3):
-    name = "Transmission Control Protocol"
+    name = "TCP"
 
     def __init__(self, hex: list[str]) -> None:
         super().__init__(self.name, hex)

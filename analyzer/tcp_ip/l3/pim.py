@@ -8,7 +8,7 @@ LOGGER = logging.getLogger('PIM')
 
 
 class PIM(L3):
-    name = "Protocol Independent Multicast"
+    name = "PIM"
 
     def __init__(self, hex) -> None:
         super().__init__(self.name, hex)

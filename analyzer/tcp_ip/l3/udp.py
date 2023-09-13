@@ -9,7 +9,7 @@ LOGGER = logging.getLogger('UDP')
 
 
 class UDP(L3):
-    name = "User Datagram Protocol"
+    name = "UDP"
 
     def __init__(self, hex: list[str]) -> None:
         super().__init__(self.name, hex)
