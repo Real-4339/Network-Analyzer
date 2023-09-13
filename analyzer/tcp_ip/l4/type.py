@@ -26,3 +26,8 @@ class L4:
 
     def resolve_protocol(self, hex) -> str | None:
         ...
+
+    def get_packet(self, data: dict) -> dict:
+        data['protocol'] = self.name
+
+        return data
