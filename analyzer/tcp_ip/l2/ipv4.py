@@ -124,3 +124,11 @@ class IPv4(L2):
 
     def resolve_protocol(self, hex: str) -> str | None:
         return ListOfIPv4.get(hex)
+    
+    def get_packet(self, data: dict) -> dict:
+        data = super().get_packet(data)
+
+        data['src_ip'] = self.source_ip
+        data['dst_ip'] = self.destination_ip
+        
+        return data

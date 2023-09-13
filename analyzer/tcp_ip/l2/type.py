@@ -31,3 +31,8 @@ class L2:
         string = [str(int(string[i:i+2], 16)) for i in range(0, len(string), 3)]
         string = self.list_to_str(string).replace(' ', '.')
         return string
+    
+    def get_packet(self, data: dict) -> dict:
+        data['ether_type'] = self.name
+
+        return data
