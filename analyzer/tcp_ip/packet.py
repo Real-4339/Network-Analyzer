@@ -24,15 +24,15 @@ class Packet:
         return self.__l1
     
     @property
-    def L2(self) -> L2 | None:
+    def L2(self) -> L2 or None:
         return self.__l2
     
     @property
-    def L3(self) -> L3 | None:
+    def L3(self) -> L3 or None:
         return self.__l3
     
     @property
-    def L4(self) -> L4 | None:
+    def L4(self) -> L4 or None:
         return self.__l4
     
     @property
