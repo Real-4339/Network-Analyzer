@@ -566,7 +566,7 @@ class TFTP:
   ParseFile()
 
   tftp: dict[str, str] = {}
-  list_of_tftp_ports: list[str] = []
+  list_of_tftp_ports: list[list[str]] = []
 
   def __init__(self, protocol, packets):
     self.protocol = protocol
