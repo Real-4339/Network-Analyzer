@@ -4,6 +4,7 @@ from tcp_ip.l1 import *
 from tcp_ip.l2 import *
 from tcp_ip.l3 import *
 from tcp_ip.l4.type import L4
+from .statistics import Statistics
 
 
 ''' Global variables '''
@@ -15,6 +16,7 @@ class Packet:
         self.__hex = self.get_hex(packet)
         self.__frame_num = frame_num
         self._create_additional_info()
+        self._statistics = Statistics()
 
     def get_hex(self, packet) -> list[str]:
         data = bytes(packet).hex().upper()
@@ -51,7 +53,7 @@ class Packet:
             return None
         
         if l1.type == 'IPv4':
-            return IPv4(hex[14:])
+            return IPv4(hex[14:], self._statistics)
         elif l1.type == 'IPv6':
             return IPv6(hex[14:])
         elif l1.type == 'ARP':
@@ -144,3 +146,6 @@ class Packet:
         for i in range(0, len(hex_str), 32):
             LOGGER.info(f"{hex_str[i:i+32]}")
         LOGGER.info("----------------------------------------")
+
+    def print_statistics(self) -> None:
+        self._statistics.print_statistics()
