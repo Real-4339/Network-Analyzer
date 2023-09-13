@@ -34,6 +34,10 @@ class Packet:
     @property
     def L4(self) -> L4 | None:
         return self.__l4
+    
+    @property
+    def frame_num(self) -> int:
+        return self.__frame_num
 
     def get_hex(self, packet) -> list[str]:
         data = bytes(packet).hex().upper()
