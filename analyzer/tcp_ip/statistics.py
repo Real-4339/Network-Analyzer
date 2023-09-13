@@ -24,3 +24,20 @@ class Statistics:
 
         for i in rad:
             LOGGER.info(f"Address/es with the largest number of send packets: {i[0]}. Packets amount: ( {i[1]} )")
+
+    def get_all_senders(self) -> list[dict[str, str]]:
+        ipv4_senders = []
+        for key, value in self.__ip_sources.items():
+            ipv4_senders.append({'node': key, 'number_of_sent_packets': value})
+
+        return ipv4_senders
+
+    def get_max_send_packets_by(self) -> dict[str, str]:
+        max_send_packets_by = {}
+        mval = max(self.__ip_sources.values())
+        rad = [[k, v] for k, v in self.__ip_sources.items() if v == mval]
+
+        for i in rad:
+            max_send_packets_by['max_send_packets_by'] = i[0]
+
+        return max_send_packets_by
