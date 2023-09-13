@@ -1,9 +1,9 @@
 import logging
 
-from analyzer.tcp_ip.l1 import *
-from analyzer.tcp_ip.l2 import *
-from analyzer.tcp_ip.l3 import *
-from analyzer.tcp_ip.l4.type import L4
+from tcp_ip.l1 import *
+from tcp_ip.l2 import *
+from tcp_ip.l3 import *
+from tcp_ip.l4.type import L4
 
 
 ''' Global variables '''
