@@ -17,7 +17,7 @@ from tcp_ip.communications.tcp_all import TCPAll
 ''' Global variables '''
 logging.basicConfig(level=logging.NOTSET)
 
-sample = 'eth-2.pcap' # eth-1.pcap eth-3.pcap trace-15.pcap
+sample = 'trace_ip_nad_20_B.pcap' # eth-1.pcap eth-4.pcap trace-15.pcap
 
 samples_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'samples'))
 
