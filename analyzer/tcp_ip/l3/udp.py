@@ -50,11 +50,12 @@ class UDP(L3):
         LOGGER.info(f"Checksum: {self.checksum}")
         LOGGER.info(f"Protocol: {self.protocol}")
 
-    def resolve_protocol(self) -> str | None:
+    def resolve_protocol(self) -> str:
         protocol = ListOfUDP.get(str(self.dst_port), None)
         if protocol is None:
             protocol = ListOfUDP.get(str(self.src_port), None)
-
+        if protocol is None:
+            return ''
         return protocol
     
     def get_packet(self, data: dict) -> dict:

@@ -74,7 +74,7 @@ class TCP(L3):
         return self.__urgent_pointer
     
     @property
-    def protocol(self) -> str | None:
+    def protocol(self) -> str:
         return self.__protocol
     
     def print_all(self) -> None:
@@ -89,11 +89,12 @@ class TCP(L3):
         LOGGER.info(f"Urgent pointer: {self.urgent_pointer}")
         LOGGER.info(f"Protocol: {self.protocol}")
 
-    def resolve_protocol(self) -> str | None:
+    def resolve_protocol(self) -> str:
         protocol = ListOfTCP.get(str(self.dst_port), None)
         if protocol is None:
             protocol = ListOfTCP.get(str(self.src_port), None)
-
+        if protocol is None:
+            return ''
         return protocol
     
     def _get_flags(self) -> TCPFlags:
