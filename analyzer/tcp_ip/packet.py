@@ -185,3 +185,9 @@ class Packet:
         result_str = '\n'.join([' '.join(self.__hex[i:i+16]) for i in range(0, len(self.__hex), 16)])
 
         return scalarstring.LiteralScalarString(result_str)
+    
+    def __str__(self) -> str:
+        return f"Packet {self.__frame_num} with length {self.__len_frame_pcap} bytes"
+    
+    def __repr__(self) -> str:
+        return self.__str__()
