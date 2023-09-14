@@ -34,15 +34,15 @@ class TCPAll:
                     self.flags[k2].append(p.L3.flags)
                 else:
                     self.flags[k1] = [p.L3.flags]
-    
-    def print_result(self) -> None:
-        pprint('Incomplete: ')
-        pprint(self.incomplete)
-        pprint('Complete: ')
-        pprint(self.complete)
 
     def _define(self, flags: list) -> bool:
         ...
 
     def _get_results(self) -> None:
         ...
+
+    def print_result(self) -> None:
+        pprint('Incomplete: ')
+        pprint(self.incomplete)
+        pprint('Complete: ')
+        pprint(self.complete)
