@@ -1,4 +1,5 @@
 from ..packet import Packet
+from pprint import pprint
 
 
 class ARPCom:
@@ -67,3 +68,9 @@ class ARPCom:
                     self.arp_false[shift] = [ppi]
                     shift += 1
                     tmp = -2
+
+    def print_result(self) -> None:
+        pprint('Complete communications: ')
+        pprint(self.arp_true)
+        pprint('Incomplete communications: ')
+        pprint(self.arp_false)
