@@ -9,9 +9,9 @@ class L3:
     def __init__(self, name, hex) -> None:
         self.__name = name
         self.__hex = hex
-        self.__dst_port = None
-        self.__src_port = None
-        self.__protocol = None
+        self.__dst_port = ''
+        self.__src_port = ''
+        self.__protocol = ''
 
     @property
     def name(self) -> str:

@@ -9,9 +9,9 @@ class L2:
     def __init__(self, name, hex) -> None:
         self.__name = name
         self.__hex = hex
-        self.__src_ip = None
-        self.__dst_ip = None
-        self.__protocol = None
+        self.__src_ip = ''
+        self.__dst_ip = ''
+        self.__protocol = ''
 
     @property
     def name(self) -> str:
