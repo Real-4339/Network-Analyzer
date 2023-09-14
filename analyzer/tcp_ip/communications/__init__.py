@@ -1,6 +1,6 @@
-from .tftp import TFTP
+from .tftp import TFTPCom
 
 
 __all__ = [
-    'TFTP',
+    'TFTPCom',
 ]

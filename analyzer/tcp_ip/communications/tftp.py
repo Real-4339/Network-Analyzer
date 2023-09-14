@@ -2,7 +2,7 @@ from ..packet import Packet
 from pprint import pprint
 
 
-class TFTP:
+class TFTPCom:
 
     def __init__(self, packets, stat) -> None:
         '''
