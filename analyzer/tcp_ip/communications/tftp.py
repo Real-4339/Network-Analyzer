@@ -17,8 +17,8 @@ class TFTPCom:
 
         self.stats = stat
 
-        self.packets = self.parse_packets(packets)
-        self.start()
+        self.packets = self._parse_packets(packets)
+        self._start()
 
     def print_result(self) -> None:
         pprint(self.tftp)
@@ -26,7 +26,7 @@ class TFTPCom:
     def print_other(self) -> None:
         pprint(self.tftp_sessions)
 
-    def parse_packets(self, packets) -> list[Packet]:
+    def _parse_packets(self, packets) -> list[Packet]:
         my_packets = []
         
         for index, packet in enumerate(packets):
@@ -37,7 +37,7 @@ class TFTPCom:
         
         return my_packets
 
-    def start(self) -> None:
+    def _start(self) -> None:
         ''' Main function '''
 
         ''' Find all starts of TFTP sessions '''
