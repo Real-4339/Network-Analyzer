@@ -20,7 +20,7 @@ class ARPCom:
 
         self._parse_packets()
 
-    def _parse_packets(self) -> list[Packet]:
+    def _parse_packets(self) -> None:
         for index, packet in enumerate(self.packets):
             p = Packet(packet, index+1, self.stat)
             if p.L2 != None and p.L2.name == self.protocol:
