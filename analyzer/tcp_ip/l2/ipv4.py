@@ -118,8 +118,11 @@ class IPv4(L2):
         LOGGER.info(f"Source IP address: {self.src_ip}")
         LOGGER.info(f"Destination IP address: {self.dst_ip}")
 
-    def resolve_protocol(self, hex: str) -> str | None:
-        return ListOfIPv4.get(hex)
+    def resolve_protocol(self, hex: str) -> str:
+        res = ListOfIPv4.get(hex)
+        if res is None:
+            return ''
+        return res
     
     def get_packet(self, data: dict) -> dict:
         data = super().get_packet(data)
