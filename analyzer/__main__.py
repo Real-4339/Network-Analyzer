@@ -6,12 +6,10 @@ from scapy.all import rdpcap
 
 from tcp_ip.yaml import Basic
 from tcp_ip.packet import Packet
+from tcp_ip.communications import *
 from argparse import ArgumentParser
 from tcp_ip.lib.lib import parse_file
 from tcp_ip.statistics import Statistics
-from tcp_ip.communications.arp import ARPCom
-from tcp_ip.communications.tftp import TFTPCom
-from tcp_ip.communications.tcp_all import TCPAll
 
 
 ''' Global variables '''
@@ -37,6 +35,14 @@ def prepinac(protocol):
 
     elif protocol == 'ARP':
         p = ARPCom(packets, stats)
+        p.print_result()
+
+    elif protocol == 'ICMP':
+        p = ICMPCom(packets, stats)
+        p.print_result()
+    
+    elif protocol == 'RIP':
+        p = RIPCom(packets, stats)
         p.print_result()
         
     else:
@@ -70,8 +76,8 @@ if __name__ == '__main__':
 
     print("Welcome to the PKS analyzer!")
 
-    names = ['HTTP', 'HTTPS', 'TELNET', 'SSH', 'FTP-CONTROL', 'FTP-DATA', 'TFTP', 'ARP']
-    parser = ArgumentParser(description='Input HTTP, HTTPS, TELNET, SSH, FTP, TFTP, ARP: ')
+    names = ['HTTP', 'HTTPS', 'TELNET', 'SSH', 'FTP-CONTROL', 'FTP-DATA', 'TFTP', 'ARP', 'ICMP', 'RIP']
+    parser = ArgumentParser(description='Input HTTP, HTTPS, TELNET, SSH, FTP, TFTP, ARP, ICMP, RIP: ')
 
     parser.add_argument('-p', '--protocol', metavar='', help='Analyze only chosen protocol', required=False)
     args = parser.parse_args()
