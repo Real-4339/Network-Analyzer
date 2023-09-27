@@ -51,3 +51,6 @@ class L2:
         data['ether_type'] = self.name
 
         return data
+    
+    def __repr__(self) -> str:
+        return f"L2({self.name}, {self.protocol}, {self.src_ip}, {self.dst_ip})"
