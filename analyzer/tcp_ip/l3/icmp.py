@@ -38,7 +38,7 @@ class ICMP(L3):
         LOGGER.info(f"Sequence number: {self.sequence_number}")
 
     def resolve_type(self, hex: str) -> None:
-        icmp_hex = int(str(int(hex, 16)), 10)
+        icmp_hex = int(hex, 16)
         icmp_hex = '0' + str(icmp_hex) if icmp_hex < 10 else str(icmp_hex)
         
         self.__type = ListOfICMP.get(icmp_hex, 'Information Reply')
@@ -46,8 +46,8 @@ class ICMP(L3):
         if (self.__type == "Echo reply" or
             self.__type == "Echo request"):
 
-            self.__identifier = int(self.list_to_str(self.hex[4:6]), 16)
-            self.__sequence_number = int(self.list_to_str(self.hex[6:8]), 16)
+            self.__identifier = int(self.list_to_str(self.hex[4:5]), 16)
+            self.__sequence_number = int(self.list_to_str(self.hex[6:7]), 16)
     
     def get_packet(self, data: dict) -> dict:
         data = super().get_packet(data)
