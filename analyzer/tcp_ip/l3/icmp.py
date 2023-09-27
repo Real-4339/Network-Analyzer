@@ -30,10 +30,6 @@ class ICMP(L3):
     @property
     def sequence_number(self) -> int:
         return self.__sequence_number
-    
-    @property
-    def checksum(self) -> int:
-        return self.__checksum
 
     def print_all(self) -> None:
         super().print_all()
