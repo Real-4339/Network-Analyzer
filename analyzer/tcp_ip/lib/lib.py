@@ -39,7 +39,7 @@ def parse_file(project_root: str) -> None:
                     continue
 
                 if name in names:
-                    globals()[name][line.split()[0]] = line.split()[1]
+                    globals()[name][line.split()[0]] = line[1:].strip()
                 else:
                     LOGGER.error(f'Unknown name: {name}')
                     continue
