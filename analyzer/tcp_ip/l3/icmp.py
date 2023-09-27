@@ -18,7 +18,6 @@ class ICMP(L3):
 
         self.__identifier: int = None
         self.__sequence_number: int = None
-        self.__checksum: int = None
 
     @property
     def type(self) -> str:
@@ -41,13 +40,13 @@ class ICMP(L3):
         LOGGER.info(f"Type: {self.type}")
 
     def resolve_type(self, hex: str) -> None:
-        self.__type = ListOfICMP.get(hex, 16)
-        
+        self.__type = ListOfICMP.get(hex, 'Information Reply')
+
         if (self.__type == "Echo reply" or
             self.__type == "Echo request"):
-            self.__checksum = int(hex[2:4], 16)
-            self.__identifier = int(hex[4:6], 16)
-            self.__sequence_number = int(hex[6:8], 16)
+
+            self.__identifier = int(self.list_to_str(self.hex[4:6]), 16)
+            self.__sequence_number = int(self.list_to_str(self.hex[6:8]), 16)
     
     def get_packet(self, data: dict) -> dict:
         data = super().get_packet(data)
