@@ -22,6 +22,14 @@ class ICMP(L3):
     @property
     def type(self) -> str:
         return self.__type
+    
+    @property
+    def identifier(self) -> int:
+        return self.__identifier
+    
+    @property
+    def sequence_number(self) -> int:
+        return self.__sequence_number
 
     def print_all(self) -> None:
         super().print_all()
