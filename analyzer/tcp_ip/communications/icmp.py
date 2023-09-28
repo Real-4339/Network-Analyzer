@@ -7,6 +7,9 @@ class SingleICMP:
         self.packet: Packet = packet
         self.key: str = key
 
+    def __repr__(self) -> str:
+        return f"SingleICMP({self.key} - {self.packet.frame_num})"
+
 class Conversation:
     def __init__(self, key) -> None:
         '''
@@ -42,13 +45,20 @@ class Conversation:
     def is_confirmed(self) -> bool:
         return self.__confirmed
 
-    def add_packet(self, packet: Packet) -> None:
-        self.__packets.append(packet)
-        if packet.L3.sequence_number > self.end_seq:
+    def add_packet(self, packet: Packet) -> bool:
+        
+        if packet.L3.sequence_number > self.end_seq and self.__confirmed:
             self.__end_seq = packet.L3.sequence_number
+            self.__packets.append(packet)
             self.__confirmed = False
-        else:
+            return True
+        
+        elif packet.L3.sequence_number == self.end_seq:
+            self.__packets.append(packet)
             self.__confirmed = True
+            return True
+        
+        return False
 
     def construct(self, packet) -> 'Conversation':
         self.__start_seq = packet.L3.sequence_number
@@ -71,7 +81,7 @@ class Conversation:
 
 class ICMPCom:
 
-    def __init__(self, packets: list[Packet], stat: dict[str, int]) -> None:
+    def __init__(self, packets: list, stat: dict[str, int]) -> None:
         self.stat = stat
         
         self.icmp_complete: list[Conversation] = []
@@ -87,7 +97,7 @@ class ICMPCom:
         
         for index, packet in enumerate(packets):
             p = Packet(packet, index+1, self.stat)
-            if p.L2 != None and p.L2.name == 'ICMP':
+            if p.L2 != None and p.L2.protocol == 'ICMP':
                 arr.append(p)
 
         return arr
@@ -98,20 +108,37 @@ class ICMPCom:
             k1 = packet.L2.src_ip + ' -> ' + packet.L2.dst_ip
             k2 = packet.L2.dst_ip + ' -> ' + packet.L2.src_ip
 
-
             if packet.L3.identifier:
                 
                 convo = Conversation(k1).construct(packet)
                 conv = Conversation(k2).construct(packet)
 
                 if convo in self.icmp_unknown:
+                    
                     c = self.icmp_unknown[self.icmp_unknown.index(convo)]
-                    c.add_packet(packet)
-                    # self.icmp_unknown[self.icmp_unknown.index(Conversation(k1))] = c
+
+                    if convo in self.icmp_unknown[self.icmp_unknown.index(convo)+1:]:
+                        for x in self.icmp_unknown[self.icmp_unknown.index(convo)+1:]:
+                            if x == convo:
+                                c = x
+                                break
+                    
+                    if not c.add_packet(packet):
+                        self.icmp_unknown.append(convo)
+                
                 elif conv in self.icmp_unknown:
+
                     c = self.icmp_unknown[self.icmp_unknown.index(conv)]
-                    c.add_packet(packet)
-                    # self.icmp_unknown[self.icmp_unknown.index(Conversation(k2))] = c
+                    
+                    if conv in self.icmp_unknown[self.icmp_unknown.index(conv)+1:]:
+                        for x in self.icmp_unknown[self.icmp_unknown.index(conv)+1:]:
+                            if x == conv:
+                                c = x
+                                break
+
+                    if not c.add_packet(packet):
+                        self.icmp_unknown.append(conv)
+                
                 else:
                     self.icmp_unknown.append(convo)
             
@@ -126,6 +153,17 @@ class ICMPCom:
             else:
                 self.icmp_incomplete.append(convo)
 
+        del self.icmp_unknown
+
     def parse(self) -> None:
         self._parse_icmp()
         self._parse_icmp_complete()
+
+    def print_result(self) -> None:
+        print("ICMP\n-----------------")
+        print("ICMP - complete")
+        for convo in self.icmp_complete:
+            print(convo)
+        print("ICMP - incomplete")
+        for convo in self.icmp_incomplete:
+            print(convo)
