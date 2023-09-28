@@ -15,11 +15,7 @@ from tcp_ip.statistics import Statistics
 ''' Global variables '''
 logging.basicConfig(level=logging.NOTSET)
 
-sample = 'trace_ip_nad_20_B.pcap' # eth-1.pcap eth-4.pcap trace-15.pcap
-
-samples_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'samples'))
-
-packets = rdpcap(samples_path + '/' + sample) 
+sample = 'trace_ip_nad_20_B.pcap' # eth-1.pcap eth-4.pcap trace-15.pcap trace-6.pcap
 
 stats = Statistics()
 
@@ -78,9 +74,17 @@ if __name__ == '__main__':
 
     names = ['HTTP', 'HTTPS', 'TELNET', 'SSH', 'FTP-CONTROL', 'FTP-DATA', 'TFTP', 'ARP', 'ICMP', 'RIP']
     parser = ArgumentParser(description='Input HTTP, HTTPS, TELNET, SSH, FTP, TFTP, ARP, ICMP, RIP: ')
+    pcap_file_parser = ArgumentParser(description='Input pcap file name: ')
 
     parser.add_argument('-p', '--protocol', metavar='', help='Analyze only chosen protocol', required=False)
+    parser.add_argument('-f', '--file', metavar='', help='Analyze only chosen pcap file', required=False)
     args = parser.parse_args()
+
+    sample = args.file + '.pcap' if args.file else sample
+
+    samples_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'samples'))
+
+    packets = rdpcap(samples_path + '/' + sample)
 
     if args.protocol:
         if args.protocol in names:
