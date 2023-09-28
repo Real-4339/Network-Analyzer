@@ -21,6 +21,10 @@ class ICMP(L3):
         self.resolve_type(hex[0])
 
     @property
+    def check(self) -> bool:
+        return self.__check
+
+    @property
     def type(self) -> str:
         return self.__type
     
