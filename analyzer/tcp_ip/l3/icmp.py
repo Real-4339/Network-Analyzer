@@ -16,6 +16,7 @@ class ICMP(L3):
 
         self.__identifier: int = None
         self.__sequence_number: int = None
+        self.check: bool = False
 
         self.resolve_type(hex[0])
 
@@ -48,6 +49,8 @@ class ICMP(L3):
 
             self.__identifier = int(self.list_to_str(self.hex[4:5]), 16)
             self.__sequence_number = int(self.list_to_str(self.hex[6:7]), 16)
+
+            self.check = True
     
     def get_packet(self, data: dict) -> dict:
         data = super().get_packet(data)
