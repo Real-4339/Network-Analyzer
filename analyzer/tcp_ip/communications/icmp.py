@@ -116,13 +116,12 @@ class ICMPCom:
                 if convo in self.icmp_unknown:
                     
                     c = self.icmp_unknown[self.icmp_unknown.index(convo)]
-
-                    if convo in self.icmp_unknown[self.icmp_unknown.index(convo)+1:]:
-                        for x in self.icmp_unknown[self.icmp_unknown.index(convo)+1:]:
-                            if x == convo:
-                                c = x
-                                break
                     
+                    for x in self.icmp_unknown[self.icmp_unknown.index(convo)+1:]:
+                        if x == convo:
+                            c = x
+                            break
+                
                     if not c.add_packet(packet):
                         self.icmp_unknown.append(convo)
                 
@@ -130,11 +129,10 @@ class ICMPCom:
 
                     c = self.icmp_unknown[self.icmp_unknown.index(conv)]
                     
-                    if conv in self.icmp_unknown[self.icmp_unknown.index(conv)+1:]:
-                        for x in self.icmp_unknown[self.icmp_unknown.index(conv)+1:]:
-                            if x == conv:
-                                c = x
-                                break
+                    for x in self.icmp_unknown[self.icmp_unknown.index(conv)+1:]:
+                        if x == conv:
+                            c = x
+                            break
 
                     if not c.add_packet(packet):
                         self.icmp_unknown.append(conv)
