@@ -20,6 +20,7 @@ class IPv4Flags(Enum):
 
 class IPv4(L2):
     name = "IPv4"
+    bitmask = 0b11100000
 
     def __init__(self, hex, stat: Statistics) -> None:
         super().__init__(self.name, hex)
@@ -31,8 +32,7 @@ class IPv4(L2):
         self.__total_length = int(self.list_to_str(self.hex[2:4]).replace(' ', ''), 16)
         self.__identification = int(self.list_to_str(self.hex[4:6]).replace(' ', ''), 16)
 
-        self.__flags = IPv4Flags(int(self.hex[6], 16) >> 3).name
-        print(self.__flags)
+        self.__flags = IPv4Flags((int(self.hex[6], 16) & self.bitmask) >> 5).name
         self.__fragment_offset = int(self.list_to_str(self.hex[6:8]).replace(' ', ''), 16) & 0x1FFF
         
         self.__ttl = int(self.hex[8], 16)
