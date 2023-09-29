@@ -17,6 +17,17 @@ class IPv4Flags(Enum):
     DONT_FRAGMENT = 0b010
     MORE_FRAGMENTS = 0b100
 
+    @staticmethod
+    def combine(hex: int) -> list['IPv4Flags']:
+        flags = []
+
+        for flag in IPv4Flags:
+            if hex & flag.value == flag.value:
+                flags.append(flag.name)
+        if len(flags) > 1:
+            flags.remove('NONE')
+        return flags
+
 
 class IPv4(L2):
     name = "IPv4"
@@ -32,7 +43,8 @@ class IPv4(L2):
         self.__total_length = int(self.list_to_str(self.hex[2:4]).replace(' ', ''), 16)
         self.__identification = int(self.list_to_str(self.hex[4:6]).replace(' ', ''), 16)
 
-        self.__flags = IPv4Flags((int(self.hex[6], 16) & self.bitmask) >> 5).name
+
+        self.__flags = IPv4Flags.combine((int(self.hex[6], 16) & self.bitmask) >> 5)
         self.__fragment_offset = int(self.list_to_str(self.hex[6:8]).replace(' ', ''), 16) & 0x1FFF
         
         self.__ttl = int(self.hex[8], 16)
