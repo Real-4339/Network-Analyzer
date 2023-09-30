@@ -46,8 +46,8 @@ class ICMP(L3):
         if (self.__type == "Echo reply" or
             self.__type == "Echo request"):
 
-            self.__identifier = int(self.list_to_str(self.hex[4:5]), 16)
-            self.__sequence_number = int(self.list_to_str(self.hex[6:7]), 16)
+            self.__identifier = int(self.list_to_str(self.hex[4:6]), 16)
+            self.__sequence_number = int(self.list_to_str(self.hex[6:8]), 16)
     
     def get_packet(self, data: dict) -> dict:
         data = super().get_packet(data)
