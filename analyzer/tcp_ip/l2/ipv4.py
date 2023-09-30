@@ -43,7 +43,6 @@ class IPv4(L2):
         self.__total_length = int(self.list_to_str(self.hex[2:4]).replace(' ', ''), 16)
         self.__identification = int(self.list_to_str(self.hex[4:6]).replace(' ', ''), 16)
 
-
         self.__flags = IPv4Flags.combine((int(self.hex[6], 16) & self.bitmask) >> 5)
         self.__fragment_offset = int(self.list_to_str(self.hex[6:8]).replace(' ', ''), 16) & 0x1FFF
         
@@ -53,6 +52,8 @@ class IPv4(L2):
 
         self.__src_ip = self.get_ip(self.list_to_str(self.hex[12:16]))
         self.__dst_ip = self.get_ip(self.list_to_str(self.hex[16:20]))
+
+        self.__data_length = self.__total_length - self.__header_length
 
         self._statistics = stat
 
@@ -109,6 +110,10 @@ class IPv4(L2):
     @property
     def dst_ip(self) -> str:
         return self.__dst_ip
+    
+    @property
+    def data_length(self) -> int:
+        return self.__data_length
     
     @property
     def statistics(self) -> dict[str, int]:
