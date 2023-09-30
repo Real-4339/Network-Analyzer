@@ -64,8 +64,12 @@ def new_statistics():
         # print("<-----Packet----->")
         p = Packet(packet, index+1, stats)
         my_packets.append(p)
+
+        if p.L2 and p.L2.name == 'IPv4' and p.frame_num == 43:
+            p.print_all()
+
     
-    basic_yaml = Basic(sample, root, my_packets, stats)
+    # basic_yaml = Basic(sample, root, my_packets, stats)
 
 
 if __name__ == '__main__':

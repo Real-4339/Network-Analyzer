@@ -10,6 +10,7 @@ class SingleICMP:
     def __repr__(self) -> str:
         return f"SingleICMP({self.key} - {self.packet.frame_num})"
 
+
 class Conversation:
     def __init__(self, key) -> None:
         '''
@@ -79,6 +80,59 @@ class Conversation:
             return False
 
 
+class FragmentedICMP:
+    def __init__(self, key) -> None:
+        self.key: str = key
+        self.identification: int = None
+        self.start_frame: int = None
+        self.end_frame: int = None
+        self.confirmed: bool = False
+        self.packets: list[Packet] = []
+        self.sum_of_data: int = 0
+        self.corrupted: bool = False
+    
+    def _check(self, packet: Packet) -> None:
+        '''
+        If that is last packet, set confirmed to True
+        '''
+        if packet.L2.flags == ['NONE'] and packet.L2.protocol == 'ICMP':
+            self.confirmed = True
+            self.end_frame = packet.frame_num
+
+    def construct(self, packet: Packet) -> 'FragmentedICMP':
+        self.identification = packet.L2.identification
+        self.start_frame = packet.frame_num
+        self.end_frame = packet.frame_num
+        self.confirmed = False
+        self.packets.append(packet)
+        self.sum_of_data += packet.L2.data_length
+
+        return self
+
+    def add_packet(self, packet: Packet) -> bool:
+        '''
+        If packet added, return True
+        '''
+        if packet.L2.fragment_offset == self.sum_of_data:
+            self._check(packet)
+            self.packets.append(packet)
+            self.sum_of_data += packet.L2.data_length    
+        else:
+            self.corrupted = True
+            self._check(packet)
+            self.packets.append(packet)
+            self.sum_of_data += packet.L2.data_length
+    
+    def __repr__(self) -> str:
+        return f"FragmentedICMP(key: {self.key}, start: {self.start_frame}, end: {self.end_frame}, confirmed: {self.confirmed}, corrupted: {self.corrupted},\
+        identification: {self.identification}, sum_of_data: {self.sum_of_data})"
+    
+    def __eq__(self, o: 'FragmentedICMP') -> bool:
+        if self.key == o.key and o.identification == self.identification:
+            return True
+        return False
+
+
 class ICMPCom:
 
     def __init__(self, packets: list, stat: dict[str, int]) -> None:
@@ -87,6 +141,7 @@ class ICMPCom:
         self.icmp_complete: list[Conversation] = []
         self.icmp_incomplete: list[Conversation] = []
         self.icmp_unknown: list[Conversation] = []
+        self.fragmented: list[FragmentedICMP] = []
 
         self.packets = self._parse_packets(packets)
         self.parse()
@@ -108,8 +163,11 @@ class ICMPCom:
             k1 = packet.L2.src_ip + ' -> ' + packet.L2.dst_ip
             k2 = packet.L2.dst_ip + ' -> ' + packet.L2.src_ip
 
-            if packet.L3.identifier:
-                
+            if packet.L3:
+                print(packet.L3.identifier, packet.frame_num, packet.L3.name)
+        
+            if packet.L3.identifier or 'DONT_FRAGMENT' in packet.L2.flags:
+
                 convo = Conversation(k1).construct(packet)
                 conv = Conversation(k2).construct(packet)
 
@@ -139,6 +197,14 @@ class ICMPCom:
                 
                 else:
                     self.icmp_unknown.append(convo)
+                
+                fragmented = FragmentedICMP(k1).construct(packet)
+
+                if fragmented in self.fragmented:
+                    c = self.fragmented[self.fragmented.index(convo)]
+                    c.add_packet(packet)
+                else:
+                    self.fragmented.append(fragmented)
             
             else:
                 c = SingleICMP(k1, packet)
@@ -165,3 +231,8 @@ class ICMPCom:
         print("ICMP - incomplete")
         for convo in self.icmp_incomplete:
             print(convo)
+
+        print("ICMP - parts")
+        for convo in self.fragmented:
+            if convo.confirmed:
+                print(convo)
