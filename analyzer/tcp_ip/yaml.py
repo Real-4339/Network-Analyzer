@@ -3,10 +3,11 @@ import time
 from ruamel.yaml import YAML
 from tcp_ip.packet import Packet
 from tcp_ip.statistics import Statistics
+from tcp_ip.communications.type import Com
 
 
 class Basic:
-    def __init__(self, pcap_name: str, root_path: str, arr: list[Packet], stat: Statistics) -> None:
+    def __init__(self, pcap_name: str, root_path: str, arr: list[Packet] = None, stat: Statistics = None) -> None:
         self.timestamp = time.strftime("%Y%m%d-%H%M%S")
         self.results_path = root_path + "/results/"
         
@@ -43,16 +44,19 @@ class Basic:
 
 
 class Advanced(Basic):
-    def __init__(self, pcap_name: str, root_path: str, filter:str, arr: list[Packet]) -> None:
-        super().__init__(pcap_name, root_path, arr)
+    def __init__(self, pcap_name: str, root_path: str, filter:str, class_object: Com) -> None:
+        
+        self.filter = filter
+        self.class_object = class_object
 
-    def create_data_to_dump(self, filter: str) -> dict:
-        def arp() -> dict:
-            data = {}
-            data['name'] = 'PKS2023/24'
-            data['pcap_name'] = self.pcap_name
-            data['filter_name'] = filter
-            data['complete_comms'] = ...
+        super().__init__(pcap_name, root_path)
+        
+    def create_data_to_dump(self) -> dict:
+        data = {}
+        data['name'] = 'PKS2023/24'
+        data['pcap_name'] = self.pcap_name
+        data['filter_name'] = self.filter
+        
+        data = self.class_object.to_yaml(data)
 
-
-            return data
+        return data
