@@ -188,3 +188,40 @@ class TCPAll:
         pprint(self.incomplete)
         pprint('Complete: ')
         pprint(self.complete)
+
+    def to_yaml(self, data) -> dict:
+
+        data['complete_comms'] = []
+        ind = 0
+        for key, value in self.complete.items():
+            num_comm = {}
+            packets = []
+
+            num_comm['num_comm'] = ind
+            num_comm['src_comm'] = key.split('->')[0]
+            num_comm['dst_comm'] = key.split('->')[1]
+
+            for p in value:
+                packets.append(p.get_packet())
+
+            num_comm['packets'] = packets
+            data['complete_comms'].append(num_comm)
+            ind += 1
+
+        data['partial_comms'] = []
+
+        ind = 0
+        for key, value in self.incomplete.items():
+            num_comm = {}
+            packets = []
+
+            num_comm['num_comm'] = ind
+
+            for p in value:
+                packets.append(p.get_packet())
+
+            num_comm['packets'] = packets
+            data['partial_comms'].append(num_comm)
+            ind += 1
+
+        return data
