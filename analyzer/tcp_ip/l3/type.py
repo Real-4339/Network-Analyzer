@@ -12,6 +12,7 @@ class L3:
         self.__dst_port = ''
         self.__src_port = ''
         self.__protocol = ''
+        self.__type = ''
 
     @property
     def name(self) -> str:
@@ -32,6 +33,10 @@ class L3:
     @property
     def protocol(self) -> str:
         return self.__protocol
+    
+    @property
+    def type(self) -> str:
+        return self.__type
 
     def list_to_str(self, data: list[str]) -> str:
         return ''.join(data)

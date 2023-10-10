@@ -11,6 +11,7 @@ class L1:
 
         self.__dst_mac = self.list_to_str(hex[0:6]).replace(' ', ':')
         self.__src_mac = self.list_to_str(hex[6:12]).replace(' ', ':')
+        self.__type = None
 
     @property
     def name(self) -> str:
@@ -23,6 +24,10 @@ class L1:
     @property
     def src_mac(self) -> str:
         return self.__src_mac
+    
+    @property
+    def type(self) -> str | None:
+        return self.__type
 
     def list_to_str(self, data: list[str]) -> str:
         return ' '.join(data)
@@ -39,5 +44,10 @@ class L1:
         data['frame_type'] = self.name
         data['src_mac'] = self.src_mac
         data['dst_mac'] = self.dst_mac
+        if self.type:
+            if self.name == 'IEEE 802.3 LLC':
+                data['sap'] = self.type
+            if self.name == 'IEEE 802.3 LLC & SNAP':
+                data['pid'] = self.type
 
         return data

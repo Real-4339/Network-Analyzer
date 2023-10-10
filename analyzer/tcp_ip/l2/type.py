@@ -12,6 +12,7 @@ class L2:
         self.__src_ip = ''
         self.__dst_ip = ''
         self.__protocol = ''
+        self.__header_length = 20
 
     @property
     def name(self) -> str:
@@ -32,6 +33,10 @@ class L2:
     @property
     def protocol(self) -> str:
         return self.__protocol
+    
+    @property
+    def header_length(self) -> int:
+        return self.__header_length
 
     def list_to_str(self, data: list[str]) -> str:
         return ' '.join(data)

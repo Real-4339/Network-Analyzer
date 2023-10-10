@@ -27,18 +27,18 @@
 02 Individual
 03 Group
 06 IP
-0e Network Management
+0E Network Management
 42 STP
-4e MMS
-5e ISI IP
-7e X.25 PLP
-8e Active Station
-aa SNAP
-e0 IPX
-f0 NETBIOS
-f4 LAN
-fe ISO
-ff Global DSAP
+4E MMS
+5E ISI IP
+7E X.25 PLP
+8E Active Station
+AA SNAP
+E0 IPX
+F0 NETBIOS
+F4 LAN
+FE ISO
+FF Global DSAP
 #ListOfIPv4
 01 ICMP
 02 IGMP

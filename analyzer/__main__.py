@@ -44,13 +44,6 @@ def prepinac(protocol):
     else:
         p = TCPAll(protocol, packets, stats)
         p.print_result()
-    #else:
-    # p = Prepinac(protocol, packets)
-    # p.parsePackets()
-    # for flags in eval("Prepinac." + p.low).values():
-    #     print(p.define(flags))
-
-    # p.printAll()
 
 
 def new_statistics():
@@ -64,12 +57,8 @@ def new_statistics():
         # print("<-----Packet----->")
         p = Packet(packet, index+1, stats)
         my_packets.append(p)
-
-        if p.L2 and p.L2.name == 'IPv4' and p.frame_num == 43:
-            p.print_all()
-
     
-    # basic_yaml = Basic(sample, root, my_packets, stats)
+    basic_yaml = Basic(sample, root, my_packets, stats)
 
 
 if __name__ == '__main__':
@@ -91,7 +80,7 @@ if __name__ == '__main__':
     packets = rdpcap(samples_path + '/' + sample)
 
     if args.protocol:
-        if args.protocol in names:
+        if args.protocol in names: # XXX: lowercase
             prepinac(args.protocol)
         else:
             print("Error")

@@ -62,6 +62,7 @@ class UDP(L3):
         data = super().get_packet(data)
         data['src_port'] = self.src_port
         data['dst_port'] = self.dst_port
-        data['app_protocol'] = self.protocol
+        if self.protocol != '':
+            data['app_protocol'] = self.protocol
 
         return data

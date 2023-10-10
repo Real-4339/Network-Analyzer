@@ -34,6 +34,8 @@ class TCP(L3):
         self.__sequence_number = int( self.list_to_str( hex[4:8] ), 16 )
         self.__acknowledgment_number = int( self.list_to_str( hex[8:12] ), 16 )
 
+        self.__header_length = ( int( self.list_to_str( hex[12:13] ), 16 ) >> 4 ) * 4
+
         self.__flags = self._get_flags()
         self.__window_size = int( self.list_to_str( hex[14:16] ), 16 )
         self.__checksum = self.list_to_str( hex[16:18] )
@@ -77,12 +79,17 @@ class TCP(L3):
     def protocol(self) -> str:
         return self.__protocol
     
+    @property
+    def header_length(self) -> int:
+        return self.__header_length
+    
     def print_all(self) -> None:
         super().print_all()
         LOGGER.info(f"Source port: {self.src_port}")
         LOGGER.info(f"Destination port: {self.dst_port}")
         LOGGER.info(f"Sequence number: {self.sequence_number}")
         LOGGER.info(f"Acknowledgment number: {self.acknowledgment_number}")
+        LOGGER.info(f"Header length: {self.header_length}")
         LOGGER.info(f"Flags: {self.flags}")
         LOGGER.info(f"Window size: {self.window_size}")
         LOGGER.info(f"Checksum: {self.checksum}")

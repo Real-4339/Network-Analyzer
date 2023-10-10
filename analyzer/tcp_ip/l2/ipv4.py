@@ -13,9 +13,9 @@ LOGGER = logging.getLogger('IPv4')
 
 class IPv4Flags(Enum):
     NONE = 0b000
-    RESERVED = 0b001
+    RESERVED = 0b100
     DONT_FRAGMENT = 0b010
-    MORE_FRAGMENTS = 0b100
+    MORE_FRAGMENTS = 0b001
 
     @staticmethod
     def combine(hex: int) -> list['IPv4Flags']:
@@ -37,14 +37,15 @@ class IPv4(L2):
         super().__init__(self.name, hex)
 
         self.__version = int(self.hex[0], 16) >> 4
-        self.__header_length = (int(self.hex[0], 16) & 0x0F) * 4
+        self.__header_length = (int(self.hex[0], 16) & 0x0F) * 4  
+
         self.__dscp = int(self.hex[1], 16) >> 2
         self.__ecn = int(self.hex[1], 16) & 0x03
         self.__total_length = int(self.list_to_str(self.hex[2:4]).replace(' ', ''), 16)
         self.__identification = int(self.list_to_str(self.hex[4:6]).replace(' ', ''), 16)
 
         self.__flags = IPv4Flags.combine((int(self.hex[6], 16) & self.bitmask) >> 5)
-        self.__fragment_offset = int(self.list_to_str(self.hex[6:8]).replace(' ', ''), 16) & 0x1FFF
+        self.__fragment_offset = ( int(self.list_to_str(self.hex[6:8]).replace(' ', ''), 16) & 0x1FFF ) * 8
         
         self.__ttl = int(self.hex[8], 16)
         self.__protocol = self.resolve_protocol(self.hex[9])

@@ -95,15 +95,15 @@ class Packet:
             return None
         
         if l2.protocol == 'ICMP':
-            return ICMP(hex[34:])
+            return ICMP(hex[14+l2.header_length:])
         elif l2.protocol == 'IGMP':
-            return IGMP(hex[34:])
+            return IGMP(hex[14+l2.header_length:])
         elif l2.protocol == 'TCP':
-            return TCP(hex[34:])
+            return TCP(hex[14+l2.header_length:])
         elif l2.protocol == 'UDP':
-            return UDP(hex[34:])
+            return UDP(hex[14+l2.header_length:])
         elif l2.protocol == 'PIM':
-            return PIM(hex[34:])
+            return PIM(hex[14+l2.header_length:])
         else:
             return None
 
@@ -170,7 +170,7 @@ class Packet:
 
     def get_packet(self) -> dict:
         data = {}
-        data['frame_num'] = self.__frame_num
+        data['frame_number'] = self.__frame_num
         data['len_frame_pcap'] = self.__len_frame_pcap
         data['len_frame_medium'] = self.__len_frame_medium
         self.__l1.get_packet(data)
@@ -182,9 +182,26 @@ class Packet:
         return data
     
     def hex_to_yaml(self) -> scalarstring.LiteralScalarString:
-        result_str = '\n'.join([' '.join(self.__hex[i:i+16]) for i in range(0, len(self.__hex), 16)])
+        def default_hexdump() -> str:
+            result_str = '\n'.join([' '.join(self.__hex[i:i+16]) for i in range(0, len(self.__hex), 16)])
+            return result_str + ' '
 
-        return scalarstring.LiteralScalarString(result_str)
+        def beautiful_hexdump(data) -> str:
+            result = []
+            offset = 0
+
+            while data:
+                chunk, data = data[:16], data[16:]
+                hex_part = ' '.join(f'{byte:02X}' for byte in chunk)
+                ascii_part = ''.join(chr(byte) if 32 <= byte < 127 else '.' for byte in chunk)
+                result.append(f'{offset:08X}: {hex_part.ljust(48)}  |{ascii_part:<16}|')
+                offset += 16
+
+            return '\n'.join(result)
+
+        # hexdump_str = beautiful_hexdump([int(byte, 16) for byte in self.__hex])
+        hexdump_str = default_hexdump()
+        return scalarstring.LiteralScalarString(hexdump_str)
     
     def __str__(self) -> str:
         return f"Packet {self.__frame_num} with length {self.__len_frame_pcap} bytes"

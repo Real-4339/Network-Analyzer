@@ -20,7 +20,7 @@ class Basic:
     
     def create_data_to_dump(self) -> dict:
         data = {}
-        data['name'] = 'PKS2022/23'
+        data['name'] = 'PKS2023/24'
         data['pcap_name'] = self.pcap_name
         data['packets'] = []
         
@@ -42,6 +42,9 @@ class Basic:
         file.close()
 
 
-class Advanced:
-    def __init__(self, root_path, arr: list[Packet]) -> None:
-        pass
+class Advanced(Basic):
+    def __init__(self, pcap_name: str, root_path: str, arr: list[Packet]) -> None:
+        super().__init__(pcap_name, root_path, arr)
+
+    def create_data_to_dump(self) -> dict:
+        ...

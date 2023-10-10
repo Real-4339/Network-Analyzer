@@ -48,9 +48,9 @@ class TFTPCom:
         ''' Find dst ports for each session '''
         for packet in self.packets:
             for index, session in enumerate(self.tftp_sessions):
-                if ( 
+                if (
                 packet.L2.src_ip == session[2] and
-                packet.L3.dst_port == session[1] 
+                packet.L3.dst_port == session[1]
                 ):
                     if packet.L3.src_port in self.tftp_sessions[index]:
                         continue
@@ -60,8 +60,10 @@ class TFTPCom:
         for packet in self.packets:
             for session in self.tftp_sessions:
                 if (
-                    (packet.L2.src_ip, packet.L3.src_port) == (session[0], session[1]) or
-                    (packet.L2.src_ip, packet.L3.src_port) == (session[2], session[3])
+                    (packet.L2.src_ip, packet.L3.src_port, packet.L2.dst_ip, packet.L3.dst_port) == (session[0], session[1], session[2], session[3]) or
+                    (packet.L2.src_ip, packet.L3.src_port, packet.L2.dst_ip, packet.L3.dst_port) == (session[2], session[3], session[0], session[1]) or
+                    (packet.L2.src_ip, packet.L3.src_port, packet.L2.dst_ip, packet.L3.dst_port) == (session[0], session[1], session[2], 69) or
+                    (packet.L2.src_ip, packet.L3.src_port, packet.L2.dst_ip, packet.L3.dst_port) == (session[2], 69, session[0], session[1])
                 ):
                     
                     k1 = session[0]+':'+str(session[1])+'->'+session[2]+':'+str(session[3])
