@@ -43,8 +43,16 @@ class Basic:
 
 
 class Advanced(Basic):
-    def __init__(self, pcap_name: str, root_path: str, arr: list[Packet]) -> None:
+    def __init__(self, pcap_name: str, root_path: str, filter:str, arr: list[Packet]) -> None:
         super().__init__(pcap_name, root_path, arr)
 
-    def create_data_to_dump(self) -> dict:
-        ...
+    def create_data_to_dump(self, filter: str) -> dict:
+        def arp() -> dict:
+            data = {}
+            data['name'] = 'PKS2023/24'
+            data['pcap_name'] = self.pcap_name
+            data['filter_name'] = filter
+            data['complete_comms'] = ...
+
+
+            return data
