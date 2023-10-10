@@ -1,8 +1,9 @@
 from ..packet import Packet
 from pprint import pprint
+from .type import Com
 
 
-class SingleICMP:
+class SingleICMP (Com):
     def __init__(self, key, packet) -> None:
         self.packet: Packet = packet
         self.key: str = key
