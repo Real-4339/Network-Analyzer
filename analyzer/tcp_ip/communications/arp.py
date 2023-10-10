@@ -83,15 +83,14 @@ class ARPCom (Com):
         pprint(self.arp_false_yaml)
 
     def to_yaml(self, data) -> dict:
-        num_comm = {}
-        packets = []
-
+        
         data['complete_comms'] = []
 
         for k, v in self.arp_true.items():
             num_comm = {}
-            num_comm['number_comm'] = k
             packets = []
+            
+            num_comm['number_comm'] = k
 
             for key, value in v.items():
                 num_comm['src_comm'] = key.split(' -> ')[0]
@@ -107,8 +106,9 @@ class ARPCom (Com):
 
         for k, v in self.arp_false_yaml.items():
             num_comm = {}
-            num_comm['number_comm'] = k
             packets = []
+
+            num_comm['number_comm'] = k
 
             for packet in v[2::3]:
                 packets.append(packet.get_packet())
