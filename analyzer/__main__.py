@@ -4,11 +4,11 @@ import logging
 # from module import *
 from scapy.all import rdpcap
 
-from tcp_ip.yaml import Basic
 from tcp_ip.packet import Packet
 from tcp_ip.communications import *
 from argparse import ArgumentParser
 from tcp_ip.lib.lib import parse_file
+from tcp_ip.yaml import Basic, Advanced
 from tcp_ip.statistics import Statistics
 
 
@@ -24,6 +24,7 @@ def prepinac(protocol):
 
     root = os.path.abspath(os.path.dirname(__file__))
     parse_file(root)
+    p = Com
 
     if protocol == 'TFTP':
         p = TFTPCom(packets, stats)
@@ -31,7 +32,7 @@ def prepinac(protocol):
 
     elif protocol == 'ARP':
         p = ARPCom(packets, stats)
-        p.print_result()
+        #p.print_result()
 
     elif protocol == 'ICMP':
         p = ICMPCom(packets, stats)
@@ -44,6 +45,8 @@ def prepinac(protocol):
     else:
         p = TCPAll(protocol, packets, stats)
         p.print_result()
+
+    advanced_yaml = Advanced(sample, root, protocol, p)
 
 
 def new_statistics():
