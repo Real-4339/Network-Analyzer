@@ -1,8 +1,9 @@
 from ..packet import Packet
+from .type import Com
 from pprint import pprint
 
 
-class ARPCom:
+class ARPCom (Com):
 
     def __init__(self, packets, stat) -> None:
         '''
@@ -74,3 +75,22 @@ class ARPCom:
         pprint(self.arp_true)
         pprint('Incomplete communications: ')
         pprint(self.arp_false)
+
+    def to_yaml(self, data) -> dict:
+        num_comm = []
+        packets = []
+        
+        data['complete_comms'] = []
+
+        for k, v in self.arp_true.items():
+            num_comm['number_comm'] = k
+            num_comm['packets'] = []
+
+            for packet in v[0][0].values():
+                packets.append(packet.get_packet())
+
+            num_comm['packets'] = packets
+        
+        data['complete_comms'].append(num_comm)
+
+        return data
