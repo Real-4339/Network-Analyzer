@@ -24,3 +24,11 @@ class RIPCom:
 
     def print_result(self) -> None:
         pprint(self.rip)
+
+    def to_yaml(self, data) -> dict:
+        data['partial_comms'] = []
+        
+        for p in self.rip:
+            data['partial_comms'].append(p.get_packet())
+
+        return data
