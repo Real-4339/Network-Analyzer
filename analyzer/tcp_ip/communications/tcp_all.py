@@ -1,9 +1,10 @@
 from tcp_ip.l3.tcp import TCPFlags
 from ..packet import Packet
 from pprint import pprint
+from .type import Com
 
 
-class TCPAll:
+class TCPAll (Com):
 
     def __init__(self, protocol: str, packets: list, stat) -> None:
         '''

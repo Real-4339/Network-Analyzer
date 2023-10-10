@@ -1,8 +1,9 @@
 from ..packet import Packet
 from pprint import pprint
+from .type import Com
 
 
-class TFTPCom:
+class TFTPCom (Com):
 
     def __init__(self, packets, stat) -> None:
         '''
