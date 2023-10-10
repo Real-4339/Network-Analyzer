@@ -13,11 +13,10 @@ class ARPCom (Com):
         self.protocol = 'ARP'
 
         self.arp_unknown: dict[str, list[int, int]] = {}
-        self.arp_false: dict[dict[str, list[int, int]]] = {}
-        self.arp_true: dict[dict[str, list[int, int]]] = {}
+        self.arp_false: dict[int, dict[str, list[int, int]]] = {}
+        self.arp_true: dict[int, dict[str, list[int, int]]] = {}
 
-        self.arp_true_yaml: list[Packet] = []
-        self.arp_false_yaml: list[Packet] = []
+        self.arp_false_yaml: dict[int, list[Packet]] = {}
         
         self.packets = packets
         self.stat = stat
@@ -71,14 +70,17 @@ class ARPCom (Com):
                 if tmp == 1:
                     ppi = {k : self.arp_unknown.get(k)[ind-1:ind+2]}
                     self.arp_false[shift] = ppi
+
+                    self.arp_false_yaml[shift] = self.arp_unknown.get(k)[ind-1:ind+2]
+
                     shift += 1
                     tmp = -2
 
     def print_result(self) -> None:
         pprint('Complete communications: ')
-        pprint(self.arp_true)
+        pprint(self.arp_true_yaml)
         pprint('Incomplete communications: ')
-        pprint(self.arp_false)
+        pprint(self.arp_false_yaml)
 
     def to_yaml(self, data) -> dict:
         num_comm = {}
@@ -87,13 +89,31 @@ class ARPCom (Com):
         data['complete_comms'] = []
 
         for k, v in self.arp_true.items():
+            num_comm = {}
             num_comm['number_comm'] = k
             packets = []
 
-            for packet in v[0].values()[2::3]:
-                packets.append(packet.get_packet())
+            for key, value in v.items():
+                num_comm['src_comm'] = key.split(' -> ')[0]
+                num_comm['dst_comm'] = key.split(' -> ')[1]
+                for ind, packet in enumerate(value, start=1):
+                    if ind % 3 == 0:
+                        packets.append(packet.get_packet())
 
             num_comm['packets'] = packets
             data['complete_comms'].append(num_comm)
-        
+
+        data['partial_comms'] = []
+
+        for k, v in self.arp_false_yaml.items():
+            num_comm = {}
+            num_comm['number_comm'] = k
+            packets = []
+
+            for packet in v[2::3]:
+                packets.append(packet.get_packet())
+
+            num_comm['packets'] = packets
+            data['partial_comms'].append(num_comm)
+
         return data
