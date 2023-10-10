@@ -13,8 +13,11 @@ class ARPCom (Com):
         self.protocol = 'ARP'
 
         self.arp_unknown: dict[str, list[int, int]] = {}
-        self.arp_false: dict[list[str, list[int, int]]] = {}
-        self.arp_true: dict[list[str, list[int, int]]] = {}
+        self.arp_false: dict[dict[str, list[int, int]]] = {}
+        self.arp_true: dict[dict[str, list[int, int]]] = {}
+
+        self.arp_true_yaml: list[Packet] = []
+        self.arp_false_yaml: list[Packet] = []
         
         self.packets = packets
         self.stat = stat
@@ -32,7 +35,7 @@ class ARPCom (Com):
                 if k1 in self.arp_unknown:
                     self.arp_unknown[k1].append(p.frame_num)
                     self.arp_unknown[k1].append(p.L2.opcode)
-                    self.arp_unknown[k1].append(p)
+                    self.arp_unknown[k1].append(p)                    
                 elif k2 in self.arp_unknown:
                     self.arp_unknown[k2].append(p.frame_num)
                     self.arp_unknown[k2].append(p.L2.opcode)
@@ -55,7 +58,8 @@ class ARPCom (Com):
         for ind, a in enumerate(listOfComplete):
             if a[0] in self.arp_unknown:
                 ppi = {a[0] : self.arp_unknown.get(a[0])[a[1]:a[2]]}
-                self.arp_true[ind] = [ppi]
+                self.arp_true[ind] = ppi
+
                 del self.arp_unknown.get(a[0])[a[1]:a[2]]
 
         tmp = -1
@@ -66,7 +70,7 @@ class ARPCom (Com):
                 tmp += 1
                 if tmp == 1:
                     ppi = {k : self.arp_unknown.get(k)[ind-1:ind+2]}
-                    self.arp_false[shift] = [ppi]
+                    self.arp_false[shift] = ppi
                     shift += 1
                     tmp = -2
 
@@ -77,20 +81,19 @@ class ARPCom (Com):
         pprint(self.arp_false)
 
     def to_yaml(self, data) -> dict:
-        num_comm = []
+        num_comm = {}
         packets = []
-        
+
         data['complete_comms'] = []
 
         for k, v in self.arp_true.items():
             num_comm['number_comm'] = k
-            num_comm['packets'] = []
+            packets = []
 
-            for packet in v[0][0].values():
+            for packet in v[0].values()[2::3]:
                 packets.append(packet.get_packet())
 
             num_comm['packets'] = packets
+            data['complete_comms'].append(num_comm)
         
-        data['complete_comms'].append(num_comm)
-
         return data
