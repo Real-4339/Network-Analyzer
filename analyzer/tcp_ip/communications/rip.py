@@ -1,8 +1,9 @@
 from ..packet import Packet
 from pprint import pprint
+from .type import Com
 
 
-class RIPCom:
+class RIPCom (Com):
     def __init__(self, packets, stat) -> None:
         '''
         :packets: list of Packet objects from pcap file
