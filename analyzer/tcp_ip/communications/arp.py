@@ -1,6 +1,6 @@
 from ..packet import Packet
-from .type import Com
 from pprint import pprint
+from .type import Com
 
 
 class ARPCom (Com):
