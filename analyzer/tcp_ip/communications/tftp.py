@@ -12,7 +12,7 @@ class TFTPCom:
         :packets: list of Packet objects from pcap file
         :stats: Statistics object
         '''
-        self.tftp: dict[str, list[int]] = {}
+        self.tftp: dict[str, list[Packet]] = {}
         self.tftp_sessions: list[list[str]] = []
 
         self.stats = stat
@@ -70,8 +70,29 @@ class TFTPCom:
                     k2 = session[2]+':'+str(session[3])+'->'+session[0]+':'+str(session[1])
 
                     if k1 in self.tftp:
-                        self.tftp[k1].append(packet.frame_num)
+                        self.tftp[k1].append(packet)
                     elif k2 in self.tftp:
-                        self.tftp[k2].append(packet.frame_num)
+                        self.tftp[k2].append(packet)
                     else:
-                        self.tftp[k1] = [packet.frame_num]
+                        self.tftp[k1] = [packet]
+
+    def to_yaml(self, data) -> dict:
+        data['complete_comms'] = []
+        ind = 0
+
+        for key, value in self.tftp.items():
+            num_comm = {}
+            packets = []
+
+            num_comm['num_comm'] = ind
+            num_comm['src_comm'] = key.split('->')[0]
+            num_comm['dst_comm'] = key.split('->')[1]
+
+            for p in value:
+                packets.append(p.get_packet())
+
+            num_comm['packets'] = packets
+            data['complete_comms'].append(num_comm)
+            ind += 1
+
+        return data
