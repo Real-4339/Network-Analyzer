@@ -32,7 +32,7 @@ def prepinac(protocol):
 
     elif protocol == 'ARP':
         p = ARPCom(packets, stats)
-        #p.print_result()
+        p.print_result()
 
     elif protocol == 'ICMP':
         p = ICMPCom(packets, stats)
