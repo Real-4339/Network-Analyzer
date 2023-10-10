@@ -74,5 +74,7 @@ class ICMP(L3):
     def get_packet(self, data: dict) -> dict:
         data = super().get_packet(data)
         data['icmp_type'] = self.type
+        data['icmp_id'] = self.identifier
+        data['icmp_seq'] = self.sequence_number_big
 
         return data

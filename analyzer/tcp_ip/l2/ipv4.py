@@ -148,6 +148,9 @@ class IPv4(L2):
 
         data['src_ip'] = self.src_ip
         data['dst_ip'] = self.dst_ip
+        data['id'] = self.identification
+        data['flags_mf'] = 'MORE_FRAGMENTS' in self.flags
+        data['frag_offset'] = self.fragment_offset
         
         return data
     
