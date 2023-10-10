@@ -21,6 +21,7 @@ class Conversation:
                           when sending a new packet, the value is set to False
         '''
         self.__key: str = key
+        self.__identifier = None
         self.__start_frame: int = None
         self.__end_frame: int = None
 
@@ -36,6 +37,10 @@ class Conversation:
     @property
     def key(self) -> str:
         return self.__key
+    
+    @property
+    def identifier(self) -> int:
+        return self.__identifier
     
     @property
     def start_frame(self) -> int:
@@ -72,6 +77,8 @@ class Conversation:
 
         if self.end_seq_big + 1 == packet.L3.sequence_number_big and self.__confirmed:
             self.__end_seq_big = packet.L3.sequence_number_big
+            self.__end_seq_lit = packet.L3.sequence_number_lit
+
             self.__end_frame = packet.frame_num
             self.__packets.append(packet)
             self.__confirmed = False
@@ -79,6 +86,8 @@ class Conversation:
 
         elif self.end_seq_lit + 1 == packet.L3.sequence_number_lit and self.__confirmed:
             self.__end_seq_lit = packet.L3.sequence_number_lit
+            self.__end_seq_big = packet.L3.sequence_number_big
+
             self.__end_frame = packet.frame_num
             self.__packets.append(packet)
             self.__confirmed = False
@@ -99,6 +108,8 @@ class Conversation:
         return False
 
     def construct(self, packet) -> 'Conversation':
+        self.__identifier = packet.L3.identifier
+
         self.__start_frame = packet.frame_num
         self.__end_frame = packet.frame_num
 
@@ -113,19 +124,20 @@ class Conversation:
         return self
     
     def __repr__(self) -> str:
-        return f"Conversation({self.key}, start seq (BE): {self.start_seq_big}, end seq (BE): {self.end_seq_big}, \n\
+        return f"Conversation({self.key}, identifier: {self.identifier}, \n\
+        start seq (BE): {self.start_seq_big}, end seq (BE): {self.end_seq_big}, \n\
         start seq (LE): {self.start_seq_lit}, end seq (LE): {self.end_seq_lit},\n\
         start frame: {self.start_frame}, end frame: {self.end_frame})"
     
     def __eq__(self, o: 'Conversation') -> bool:
 
-        if self.key == o.key and o.end_seq_big == self.end_seq_big:
+        if self.key == o.key and o.end_seq_big == self.end_seq_big and o.identifier == self.identifier:
             return True
-        if self.key == o.key and o.end_seq_big == self.end_seq_big + 1:
+        if self.key == o.key and o.end_seq_big == self.end_seq_big + 1 and o.identifier == self.identifier:
             return True
-        if self.key == o.key and o.end_seq_lit == self.end_seq_lit:
+        if self.key == o.key and o.end_seq_lit == self.end_seq_lit and o.identifier == self.identifier:
             return True
-        if self.key == o.key and o.end_seq_lit == self.end_seq_lit + 1:
+        if self.key == o.key and o.end_seq_lit == self.end_seq_lit + 1 and o.identifier == self.identifier:
             return True
         else:
             return False
