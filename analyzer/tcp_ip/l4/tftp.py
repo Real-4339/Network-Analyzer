@@ -1,6 +1,7 @@
 import logging
 
 from .type import L4
+from typing import Union
 
 
 ''' Global variables '''
@@ -27,32 +28,32 @@ class TFTP(L4):
         return self.__opcode
     
     @property
-    def filename(self) -> str | NotImplemented:
+    def filename(self) -> Union[str, NotImplemented]:
         return self.__filename
     
     @property
-    def type(self) -> str | NotImplemented:
+    def type(self) -> Union[str, NotImplemented]:
         return self.__type
     
     @property
-    def block(self) -> int | NotImplemented:
+    def block(self) -> Union[int, NotImplemented]:
         return self.__block
     
     def _create_additional_info(self) -> None:
         ''' Create additional info based on opcode '''
 
-        len = self.__length - 8
+        len = self.__length - 9
 
         if self.opcode == 1:
             ''' 1 - Read request '''
             
-            self.__type = self.list_to_str(self.hex[len:-1]).decode('utf-8')
-            self.__filename = self.list_to_str(self.hex[2: len]).decode('utf-8')
+            self.__type = bytes.fromhex(self.list_to_str(self.hex[len:-1])).decode('utf-8')
+            self.__filename = bytes.fromhex(self.list_to_str(self.hex[2: len])).decode('utf-8')
         
         elif self.opcode == 2:
             ''' 2 - Write request '''
-            self.__filename = self.list_to_str(self.hex[2: len]).decode('utf-8')
-            self.__type = self.list_to_str(self.hex[len:-1]).decode('utf-8')
+            self.__filename = bytes.fromhex(self.list_to_str(self.hex[2: len])).decode('utf-8')
+            self.__type = bytes.fromhex(self.list_to_str(self.hex[len:-1])).decode('utf-8')
 
         elif self.opcode == 3:
             ''' 3 - Data '''
