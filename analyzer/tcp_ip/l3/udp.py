@@ -22,6 +22,8 @@ class UDP(L3):
         self.__length = int( self.list_to_str( hex[4:6] ), 16 )
         self.__checksum = self.list_to_str( hex[6:8] )
 
+        self.__data_hex = hex[8:]
+
     @property
     def src_port(self) -> int:
         return self.__src_port
@@ -41,6 +43,10 @@ class UDP(L3):
     @property
     def protocol(self) -> str | None:
         return self.__protocol
+    
+    @property
+    def data_hex(self) -> list[str]:
+        return self.__data_hex
 
     def print_all(self) -> None:
         super().print_all()
