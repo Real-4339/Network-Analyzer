@@ -122,8 +122,14 @@ class Conversation:
         
         self.__confirmed = False
 
+        self.__packets.append(packet)
+
         return self
     
+    def print_all(self) -> None:
+        for packet in self.packets:
+            print(packet)
+
     def __repr__(self) -> str:
         return f"Conversation({self.key}, identifier: {self.identifier}, \n\
         start seq (BE): {self.start_seq_big}, end seq (BE): {self.end_seq_big}, \n\
@@ -258,54 +264,6 @@ class ICMPCom:
 
         return arr
 
-    def _parse_pks(self, packets: list[Packet]) -> list[Packet]:
-        for packet in self.packets:
-
-            k1 = packet.L2.src_ip + ' -> ' + packet.L2.dst_ip
-            k2 = packet.L2.dst_ip + ' -> ' + packet.L2.src_ip
-
-            fragmented = FragmentedICMP(k1).construct(packet)
-
-            if fragmented in self.fragmented:
-                c = self.fragmented[self.fragmented.index(fragmented)]
-                c.add_packet(packet)
-            else:
-                self.fragmented.append(fragmented)
-
-            if 'MORE_FRAGMENTS' in packet.L2.flags:
-                continue
-
-
-            convo = Conversation(k1).construct(packet)
-            conv = Conversation(k2).construct(packet)
-
-            if convo in self.icmp_unknown:
-                
-                c = self.icmp_unknown[self.icmp_unknown.index(convo)]
-                
-                for x in self.icmp_unknown[self.icmp_unknown.index(convo)+1:]:
-                    if x == convo:
-                        c = x
-                        break
-            
-                if not c.add_packet(packet):
-                    self.icmp_unknown.append(convo)
-            
-            elif conv in self.icmp_unknown:
-
-                c = self.icmp_unknown[self.icmp_unknown.index(conv)]
-                
-                for x in self.icmp_unknown[self.icmp_unknown.index(conv)+1:]:
-                    if x == conv:
-                        c = x
-                        break
-
-                if not c.add_packet(packet):
-                    self.icmp_unknown.append(conv)
-
-            else:
-                self.icmp_unknown.append(convo)
-
     def _parse_icmp(self) -> None:
         for packet in self.packets:
 
@@ -389,4 +347,8 @@ class ICMPCom:
                 print(convo)
 
     def to_yaml(self, data) -> dict:
-        ...
+        return data
+        # data['complete_comms'] = []
+        # ind = 0
+
+        # for convo in self.icmp_complete:
