@@ -24,10 +24,5 @@ class L4:
     def print_all(self) -> None:
         LOGGER.info(f"Layer 4: {self.name}")
 
-    def resolve_protocol(self, hex) -> str | None:
-        ...
-
     def get_packet(self, data: dict) -> dict:
-        data['protocol'] = self.name
-
         return data
