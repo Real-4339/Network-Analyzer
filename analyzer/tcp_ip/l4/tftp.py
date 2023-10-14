@@ -21,6 +21,8 @@ class TFTP(L4):
         self.__type = NotImplemented
         self.__block = NotImplemented
 
+        self.__data_length = NotImplemented
+
         self._create_additional_info()
 
     @property
@@ -38,6 +40,10 @@ class TFTP(L4):
     @property
     def block(self) -> Union[int, NotImplemented]:
         return self.__block
+    
+    @property
+    def data_length(self) -> Union[int, NotImplemented]:
+        return self.__data_length
     
     def _create_additional_info(self) -> None:
         ''' Create additional info based on opcode '''
@@ -58,9 +64,12 @@ class TFTP(L4):
         elif self.opcode == 3:
             ''' 3 - Data '''
             self.__block = int(self.list_to_str(self.hex[2:4]), 16)
+            self.__data_length = len(self.list_to_str(self.hex[4:]))
+
         elif self.opcode == 4:
             ''' 4 - Acknowledgment '''
             self.__block = int(self.list_to_str(self.hex[2:]), 16)
+            
         elif self.opcode == 5:
             ''' 5 - Error '''
             self.__block = int(self.list_to_str(self.hex[2:]), 16)
