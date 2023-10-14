@@ -1,7 +1,6 @@
 import os
 import logging
 
-# from module import *
 from scapy.all import rdpcap
 
 from tcp_ip.packet import Packet
