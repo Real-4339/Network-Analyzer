@@ -3,7 +3,7 @@ import logging
 from tcp_ip.l1 import *
 from tcp_ip.l2 import *
 from tcp_ip.l3 import *
-from tcp_ip.l4.type import L4
+from tcp_ip.l4 import *
 from .statistics import Statistics
 from ruamel.yaml import scalarstring
 
@@ -116,8 +116,10 @@ class Packet:
         ):
             return None
         
+        if l3.protocol == 'TFTP':
+            return TFTP(l3.data_hex)
+
         return None
-        # return L4(hex[34:])
     
     def _create_additional_info(self) -> None:
         self.__len_frame_pcap = len(self.__hex)
