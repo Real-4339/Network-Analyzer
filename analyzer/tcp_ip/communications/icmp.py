@@ -1,3 +1,4 @@
+from typing import Generator
 from ..packet import Packet
 from pprint import pprint
 from .type import Com
@@ -34,6 +35,7 @@ class Conversation:
         
         self.__confirmed: bool = False
         self.__packets: list[Packet] = []
+        self.__yaml_packets: list[Packet] = []
 
     @property
     def key(self) -> str:
@@ -70,6 +72,14 @@ class Conversation:
     @property
     def packets(self) -> list[Packet]:
         return self.__packets
+    
+    @property
+    def yaml_packets(self) -> list[Packet]:
+        return self.__yaml_packets
+    
+    @yaml_packets.setter
+    def yaml_packets(self, value: list[Packet]) -> None:
+        self.__yaml_packets = value
     
     def is_confirmed(self) -> bool:
         return self.__confirmed
@@ -129,6 +139,10 @@ class Conversation:
     def print_all(self) -> None:
         for packet in self.packets:
             print(packet)
+
+    def get_packets(self) -> Generator[Packet, None, None]:
+        for packet in self.packets:
+            yield packet
 
     def __repr__(self) -> str:
         return f"Conversation({self.key}, identifier: {self.identifier}, \n\
@@ -230,6 +244,10 @@ class FragmentedICMP:
             self.packets.append(packet)
             self.sum_of_data += packet.L2.data_length
     
+    def get_packets(self) -> Generator[Packet, None, None]:
+        for packet in self.packets:
+            yield packet
+
     def __repr__(self) -> str:
         return f"FragmentedICMP(key: {self.key}, start: {self.start_frame}, end: {self.end_frame}, confirmed: {self.confirmed}, \n\
         corrupted: {self.corrupted}, identification: {self.identification}, sum_of_data: {self.sum_of_data})"
@@ -347,8 +365,54 @@ class ICMPCom:
                 print(convo)
 
     def to_yaml(self, data) -> dict:
-        return data
-        # data['complete_comms'] = []
-        # ind = 0
+        false = False
 
-        # for convo in self.icmp_complete:
+        for complete in self.icmp_complete:
+            for packet in complete.packets:
+                for fragment in self.fragmented:
+                    if packet.frame_num == fragment.end_frame:
+                        complete.yaml_packets += fragment.packets
+                        false = True
+                        break
+
+                if not false:
+                    complete.yaml_packets.append(packet)
+                
+        data['complete_comms'] = []
+        ind = 0
+
+        for convo in self.icmp_complete:
+            num_comm = {}
+            packets = []
+
+            num_comm['num_comm'] = ind
+            num_comm['src_comm'] = convo.key.split(' -> ')[0]
+            num_comm['dst_comm'] = convo.key.split(' -> ')[1]
+
+            for p in convo.yaml_packets:
+                packets.append(p.get_packet())
+
+            num_comm['packets'] = packets
+            data['complete_comms'].append(num_comm)
+            ind += 1
+
+        data['partial_comms'] = []
+        ind = 0
+
+        for convo in self.icmp_incomplete:
+            num_comm = {}
+            packets = []
+
+            num_comm['num_comm'] = ind
+
+            if isinstance(convo, SingleICMP):
+                packets.append(convo.packet.get_packet())
+            else:
+                for p in convo.packets:
+                    packets.append(p.get_packet())
+
+            num_comm['packets'] = packets
+            data['partial_comms'].append(num_comm)
+            ind += 1
+
+        return data
