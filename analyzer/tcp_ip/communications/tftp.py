@@ -1,4 +1,4 @@
-from ..packet import Packet
+from ..packet import Packet, TFTP
 from pprint import pprint
 from .type import Com
 
@@ -16,10 +16,15 @@ class TFTPCom (Com):
         self.tftp: dict[str, list[Packet]] = {}
         self.tftp_sessions: list[list[str]] = []
 
+        self.complete_comms: dict[str, list[Packet]] = {}
+        self.partial_comms: dict[str, list[Packet]] = {}
+
         self.stats = stat
 
         self.packets = self._parse_packets(packets)
         self._start()
+        self._decide()
+        
 
     def print_result(self) -> None:
         pprint(self.tftp)
@@ -77,11 +82,27 @@ class TFTPCom (Com):
                     else:
                         self.tftp[k1] = [packet]
 
+    def _decide(self) -> None:
+        ''' Decide if communication is complete or partial '''
+
+        for key, value in self.tftp.items():
+            last_ack = value[-1]
+            last_ack.L4 = TFTP(last_ack.L3.data_hex)
+            if last_ack.L4.opcode == 4:
+                last_data = value[-2]
+                last_data.L4 = TFTP(last_data.L3.data_hex)
+                if last_data.L4.data_length < 512:
+                    self.complete_comms[key] = value
+                else:
+                    self.partial_comms[key] = value
+            else:
+                self.partial_comms[key] = value
+
     def to_yaml(self, data) -> dict:
         data['complete_comms'] = []
         ind = 0
 
-        for key, value in self.tftp.items():
+        for key, value in self.complete_comms.items():
             num_comm = {}
             packets = []
 
@@ -94,6 +115,22 @@ class TFTPCom (Com):
 
             num_comm['packets'] = packets
             data['complete_comms'].append(num_comm)
+            ind += 1
+
+        data['partial_comms'] = []
+        ind = 0
+
+        for key, value in self.partial_comms.items():
+            num_comm = {}
+            packets = []
+
+            num_comm['num_comm'] = ind
+
+            for p in value:
+                packets.append(p.get_packet())
+
+            num_comm['packets'] = packets
+            data['partial_comms'].append(num_comm)
             ind += 1
 
         return data
