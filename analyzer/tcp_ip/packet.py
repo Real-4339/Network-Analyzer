@@ -35,6 +35,10 @@ class Packet:
     def L4(self) -> L4 or None:
         return self.__l4
     
+    @L4.setter
+    def L4(self, l4: L4) -> None:
+        self.__l4 = l4
+    
     @property
     def frame_num(self) -> int:
         return self.__frame_num
