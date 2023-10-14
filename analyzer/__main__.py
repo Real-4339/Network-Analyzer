@@ -14,7 +14,7 @@ from tcp_ip.statistics import Statistics
 ''' Global variables '''
 logging.basicConfig(level=logging.NOTSET)
 
-sample = 'trace_ip_nad_20_B.pcap' # eth-1.pcap eth-4.pcap trace-15.pcap trace-6.pcap
+sample = 'trace_ip_nad_20_B.pcap'
 
 stats = Statistics()
 
