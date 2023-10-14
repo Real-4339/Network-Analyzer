@@ -48,23 +48,23 @@ class TFTP(L4):
     def _create_additional_info(self) -> None:
         ''' Create additional info based on opcode '''
 
-        len = self.__length - 9
+        length = self.__length - 9
 
         if self.opcode == 1:
             ''' 1 - Read request '''
             
-            self.__type = bytes.fromhex(self.list_to_str(self.hex[len:-1])).decode('utf-8')
-            self.__filename = bytes.fromhex(self.list_to_str(self.hex[2: len])).decode('utf-8')
+            self.__type = bytes.fromhex(self.list_to_str(self.hex[length:-1])).decode('utf-8')
+            self.__filename = bytes.fromhex(self.list_to_str(self.hex[2: length])).decode('utf-8')
         
         elif self.opcode == 2:
             ''' 2 - Write request '''
-            self.__filename = bytes.fromhex(self.list_to_str(self.hex[2: len])).decode('utf-8')
-            self.__type = bytes.fromhex(self.list_to_str(self.hex[len:-1])).decode('utf-8')
+            self.__filename = bytes.fromhex(self.list_to_str(self.hex[2: length])).decode('utf-8')
+            self.__type = bytes.fromhex(self.list_to_str(self.hex[length:-1])).decode('utf-8')
 
         elif self.opcode == 3:
             ''' 3 - Data '''
             self.__block = int(self.list_to_str(self.hex[2:4]), 16)
-            self.__data_length = len(self.list_to_str(self.hex[4:]))
+            self.__data_length = len(self.hex[4:])
 
         elif self.opcode == 4:
             ''' 4 - Acknowledgment '''
