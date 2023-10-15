@@ -7,6 +7,8 @@ from tcp_ip.communications.type import Com
 
 
 class Basic:
+    ''' Basic YAML file '''
+    
     def __init__(self, pcap_name: str, root_path: str, arr: list[Packet] = None, stat: Statistics = None) -> None:
         self.timestamp = time.strftime("%Y%m%d-%H%M%S")
         self.results_path = root_path + "/results/"
@@ -44,6 +46,7 @@ class Basic:
 
 
 class Advanced(Basic):
+    ''' Advanced YAML file '''
     def __init__(self, pcap_name: str, root_path: str, filter:str, class_object: Com) -> None:
         
         self.filter = filter
