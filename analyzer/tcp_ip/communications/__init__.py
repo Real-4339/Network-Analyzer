@@ -1,4 +1,5 @@
 from .tftp import TFTPCom
+from .tcp_syn import TCPSyn
 from .arp import ARPCom
 from .icmp import ICMPCom
 from .tcp_all import TCPAll
@@ -12,5 +13,6 @@ __all__ = [
     'ARPCom',
     'ICMPCom',
     'TCPAll',
-    'RIPCom'
+    'RIPCom',
+    'TCPSyn'
 ]
