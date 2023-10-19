@@ -40,6 +40,13 @@ def prepinac(protocol):
     elif protocol == 'RIP':
         p = RIPCom(packets, stats)
         p.print_result()
+
+    elif protocol == 'SYN':
+        p = TCPSyn(packets, stats)
+        p.print_result()
+
+        basic_yaml = Basic(sample, root, p.packets, stats)
+        exit()
         
     else:
         p = TCPAll(protocol, packets, stats)
@@ -67,7 +74,7 @@ if __name__ == '__main__':
 
     print("Welcome to the PKS analyzer!")
 
-    names = ['HTTP', 'HTTPS', 'TELNET', 'SSH', 'FTP-CONTROL', 'FTP-DATA', 'TFTP', 'ARP', 'ICMP', 'RIP']
+    names = ['HTTP', 'HTTPS', 'TELNET', 'SSH', 'FTP-CONTROL', 'FTP-DATA', 'TFTP', 'ARP', 'ICMP', 'RIP', 'SYN']
     parser = ArgumentParser(description='Input HTTP, HTTPS, TELNET, SSH, FTP, TFTP, ARP, ICMP, RIP: ')
     pcap_file_parser = ArgumentParser(description='Input pcap file name: ')
 
